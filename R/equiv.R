@@ -104,6 +104,13 @@ BE = function(ci, c, ...){
 #' @param ...                   Additional parameters.
 #' @return The function returns an object of class `matrix`.
 #' @export
+#' @examples
+#' theta <- diff(apply(skin,2,mean))
+#' nu <- nrow(skin)-1
+#' sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu)
+#' alpha <- 0.05
+#' c <- log(1.25)
+#' cTOST(alpha, theta, sigma_nu, nu, c)
 cTOST = function(alpha, theta, sigma_nu, nu, c, ...){
   alpha_star = get_alpha_star(alpha=alpha, sigma_nu=sigma_nu, nu=nu, c=c)
   original_ci = ci(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu)
@@ -115,7 +122,7 @@ cTOST = function(alpha, theta, sigma_nu, nu, c, ...){
   rownames(res) = c("TOST","cTOST")
   res[1,] = c(theta,sigma_nu,alpha,original_ci[1],original_ci[2],c,BE_TOST)
   res[2,] = c(theta,sigma_nu,alpha_star,corrected_ci[1],corrected_ci[2],c,BE_cTOST)
-  return(round(res,2))
+  return(round(res,4))
 }
 
 
