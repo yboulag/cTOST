@@ -4,12 +4,12 @@
 \alias{BE}
 \title{Assess Equivalence}
 \usage{
-BE(ci, c, ...)
+BE(ci, delta, ...)
 }
 \arguments{
 \item{ci}{A \code{vector} with the lower and upper bounds of the confidence interval.}
 
-\item{c}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-c,c)}
+\item{delta}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)}
 
 \item{...}{Additional parameters.}
 }

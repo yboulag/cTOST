@@ -4,7 +4,7 @@
 \alias{obj_fun_alpha_star}
 \title{Objective function to optimise}
 \usage{
-obj_fun_alpha_star(test, alpha, sigma_nu, nu, c, ...)
+obj_fun_alpha_star(test, alpha, sigma_nu, nu, delta, ...)
 }
 \arguments{
 \item{test}{A \code{numeric} value specifying the significance level to optimise.}
@@ -15,7 +15,7 @@ obj_fun_alpha_star(test, alpha, sigma_nu, nu, c, ...)
 
 \item{nu}{A \code{numeric} value corresponding to the number of degrees of freedom.}
 
-\item{c}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-c,c)}
+\item{delta}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)}
 
 \item{...}{Additional parameters.}
 }

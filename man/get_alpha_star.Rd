@@ -4,7 +4,7 @@
 \alias{get_alpha_star}
 \title{Get alpha star}
 \usage{
-get_alpha_star(alpha, sigma_nu, nu, c, ...)
+get_alpha_star(alpha, sigma_nu, nu, delta, ...)
 }
 \arguments{
 \item{alpha}{A \code{numeric} value specifying the significance level (default = \code{0.05}).}
@@ -13,7 +13,7 @@ get_alpha_star(alpha, sigma_nu, nu, c, ...)
 
 \item{nu}{A \code{numeric} value corresponding to the number of degrees of freedom.}
 
-\item{c}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-c,c)}
+\item{delta}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)}
 
 \item{...}{Additional parameters.}
 }

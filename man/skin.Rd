@@ -3,23 +3,23 @@
 \docType{data}
 \name{skin}
 \alias{skin}
-\title{Cutaneous delivery of econazole (ECZ) from bioequivalent products on porcine skin}
+\title{Log transformed cutaneous delivery of econazole (ECZ) from bioequivalent products on porcine skin}
 \format{
 A `data.frame` with 16 rows and 2 columns:
 \describe{
   \item{Reference}{Econazole nitrate delivery for the reference product.}
   \item{Generic}{Econazole nitrate delivery for the generic bioequivalent product.}
-  \item{Obs.}{The observation corresponds to a given skin on which ECZ delivery was collected for each of the reference and generic cream.}
+  \item{Obs.}{The observation corresponds to a given skin on which the log ECZ delivery was collected for each of the reference and generic cream.}
 }
 }
 \usage{
 data(skin)
 }
 \description{
-Data collected in the same way as described in Quariter et. al. (2019),
+Original data were collected in the same way as described in Quariter et. al. (2019),
 and represents cutaneous delivery of econazole nitrate (ECZ in ng/cm^2) on porcine skin from a reference medicinal
 product and an approved bioequivalent product. The dataset contains 17 pairs of comparable porcine skin samples on which
-measurement of ECZ deposition was gathered using both creams.
+measurement of ECZ deposition was gathered, and log transformed, using both creams.
 }
 \examples{
 data(skin)
@@ -30,5 +30,6 @@ sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu)
 \references{
 Quartier, Julie, et al. "Cutaneous Biodistribution: A High-Resolution Methodology
 to Assess Bioequivalence in Topical Skin Delivery", Pharmaceutics, (2019).
+Boulaguiem, Younes, et al. "Finite Sample Adjustments for Average Equivalence Testing", bioRxiv, (2023)
 }
 \keyword{datasets}

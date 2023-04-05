@@ -2,9 +2,9 @@
 % Please edit documentation in R/equiv.R
 \name{cTOST}
 \alias{cTOST}
-\title{Assess Equivalence in the univariate framework for the TOST and the alpha-TOST}
+\title{Equivalence Assessment in the univariate framework for the TOST and the alpha-TOST}
 \usage{
-cTOST(alpha, theta, sigma_nu, nu, c, ...)
+cTOST(alpha, theta, sigma_nu, nu, delta, ...)
 }
 \arguments{
 \item{alpha}{A \code{numeric} value specifying the significance level (default = \code{0.05}).}
@@ -15,7 +15,7 @@ cTOST(alpha, theta, sigma_nu, nu, c, ...)
 
 \item{nu}{A \code{numeric} value corresponding to the number of degrees of freedom.}
 
-\item{c}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-c,c)}
+\item{delta}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)}
 
 \item{...}{Additional parameters.}
 }
@@ -33,8 +33,8 @@ theta <- diff(apply(skin,2,mean))
 nu <- nrow(skin)-1
 sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu)
 alpha <- 0.05
-c <- log(1.25)
-cTOST(alpha, theta, sigma_nu, nu, c)
+delta <- log(1.25)
+cTOST(alpha, theta, sigma_nu, nu, delta)
 }
 \author{
 Younes Boulaguiem, Stéphane Guerrier, etc.
