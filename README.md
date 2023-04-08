@@ -37,7 +37,7 @@ devtools::install_github("cTOST")
 # Equivalence Assessment
 
 In order the demonstrate the use of the function `cTOST`, we will use it
-on a dataset provided in the package. The dataset, provided by Quartier
+on a dataset included in the package. The dataset, provided by Quartier
 et al. (2019), contains 17 pairs of comparable porcine skin samples on
 which measurements of econazole nitrate deposition (an antifungal
 medication used to treat skin infections) were collected using two
@@ -74,10 +74,10 @@ for(i in 1:nrow(skin)){
 }
 axis(1, at = c(1,2), c("Reference", "Generic"),tick=FALSE)
 axis(2, at = log(c(250,500,1000,2000,4000)), c(250,500,1000,2000,4000), las=2)
-axis(2, at = mean(c(min(unlist(skin)),log(4000))), "ECZ deposition (ng/cm^2)",padj=-4.5, tick = FALSE)
+axis(2, at = mean(c(min(unlist(skin)),log(4000))), expression(paste("ECZ deposition (ng/cm"^2*")")),padj=-4.5, tick = FALSE)
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-5-1.png" width="100%" />
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 Let us now extract from the dataset the components needed to run the
 `cTOST` function. We would need the difference of means between the two
@@ -95,10 +95,43 @@ delta = *l**o**g*(1.25), the cTOST function is used as follows:
 ``` r
 alpha <- 0.05
 delta <- log(1.25)
-cTOST(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu, delta=delta)
-#>        theta sigma_nu  Level CI - low. CI - up.  delta Decision
-#> TOST  0.0227   0.1343 0.0500   -0.2117   0.2571 0.2231        0
-#> cTOST 0.0227   0.1343 0.0787   -0.1765   0.2219 0.2231        1
+out <- cTOST(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu, delta=delta)
+print(out)
+#> $theta
+#>    Generic 
+#> 0.02270215 
+#> 
+#> $sigma_nu
+#> [1] 0.1342837
+#> 
+#> $nu
+#> [1] 16
+#> 
+#> $delta
+#> [1] 0.2231436
+#> 
+#> $alpha
+#> [1] 0.05
+#> 
+#> $alpha_star
+#> [1] 0.07865711
+#> 
+#> $TOST_ci
+#>              lower     upper
+#> Generic -0.2117415 0.2571458
+#> 
+#> $TOST_decision
+#> [1] 0
+#> 
+#> $aTOST_ci
+#>              lower     upper
+#> Generic -0.1765374 0.2219417
+#> 
+#> $aTOST_decision
+#> [1] 1
+#> 
+#> attr(,"class")
+#> [1] "cTOST"
 ```
 
 To visually assess equivalence with the interval inclusion principal, we
@@ -127,7 +160,7 @@ polygon(c(delta, a2, a2, delta), c(1-d, 1-d, 1+d, 1+d) + 1, border = NA,
 polygon(c(delta, a2, a2, delta), c(1-d, 1-d, 1+d, 1+d) + 1, border = NA,
         col = cols[1], density = 20, angle = -45)
 
-alpha_star = cTOST(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu, delta=delta)[2,3]
+alpha_star = out$alpha_star
 
 b1 = theta + sigma_nu*qt(alpha_star, df = nu)
 b2 = theta - sigma_nu*qt(alpha_star, df = nu)
@@ -150,8 +183,6 @@ axis(1, at = c(-0.3, -log(1.25), -0.1, 0, 0.1, log(1.25), 0.3),
 mtext(expression(theta), side = 1, line = 2.35, cex = 1.4)
 ```
 
-<img src="README_files/figure-gfm/unnamed-chunk-8-1.png" width="100%" />
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 # Referencess
-
-Papier Quartier et Papier Boulaguiem. Use bibtex

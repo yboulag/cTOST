@@ -1,5 +1,6 @@
 ---
 output: github_document
+bibliography: references.bib
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit this file -->
@@ -70,7 +71,8 @@ Considering a significance level of $5\%$ and an equivalence limit at $\text{del
 ```{r, eval=TRUE}
 alpha <- 0.05
 delta <- log(1.25)
-cTOST(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu, delta=delta)
+out <- cTOST(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu, delta=delta)
+print(out)
 ```
 
 To visually assess equivalence with the interval inclusion principal, we reproduce Figure 2 of Boulaguiem et al. (2023) with the following code: 
@@ -98,7 +100,7 @@ polygon(c(delta, a2, a2, delta), c(1-d, 1-d, 1+d, 1+d) + 1, border = NA,
 polygon(c(delta, a2, a2, delta), c(1-d, 1-d, 1+d, 1+d) + 1, border = NA,
         col = cols[1], density = 20, angle = -45)
 
-alpha_star = cTOST(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu, delta=delta)[2,3]
+alpha_star = out$alpha_star
 
 b1 = theta + sigma_nu*qt(alpha_star, df = nu)
 b2 = theta - sigma_nu*qt(alpha_star, df = nu)
@@ -122,9 +124,8 @@ mtext(expression(theta), side = 1, line = 2.35, cex = 1.4)
 
 ``` 
 
-# Referencess
+# References
 
-Papier Quartier et Papier Boulaguiem. Use bibtex
 
 
 
