@@ -2,12 +2,12 @@
 % Please edit documentation in R/equiv.R
 \name{print.cTOST}
 \alias{print.cTOST}
-\title{Print results}
+\title{Print the results of the equivalence assessment}
 \usage{
 \method{print}{cTOST}(x, ...)
 }
 \description{
-Print results
+Print the results of the equivalence assessment
 }
 \author{
 Younes Boulaguiem, Stéphane Guerrier, etc.

@@ -139,6 +139,8 @@ cTOST = function(alpha, theta, sigma_nu, nu, delta, ...){
 
 #' @title Extract relevant info to format
 #' @author Younes Boulaguiem, Stéphane Guerrier, etc.
+#' @export
+#'
 coef.cTOST = function(x, ...){
   method = c("TOST","aTOST")
   decision = c(x$TOST_decision,x$aTOST_decision)
@@ -149,8 +151,10 @@ coef.cTOST = function(x, ...){
   df
 }
 
-#' @title Print results
+#' @title Print the results of the equivalence assessment
 #' @author Younes Boulaguiem, Stéphane Guerrier, etc.
+#' @export
+#'
 print.cTOST = function(x, ...){
   cTOST_coef = coef(x)[,1:3]
   nom = rownames(cTOST_coef)
@@ -196,8 +200,10 @@ print.cTOST = function(x, ...){
       cli_text(col_green(" {symbol$tick} "))
     }
   }
+  cli_div(theme = list(span.red = list(color = "red")))
+  cli_div(theme = list(span.green = list(color = "green")))
   cli_text("{.emph Estimate : }", round(x$theta,3), "; {.emph Std. error : }", round(x$sigma_nu,3),
-           "; {.emph Signif. level : }", alpha, "; {.emph Corrected level : }", round(alpha_star,3))
+           "; {.emph Signif. level : }", alpha, "; {.emph Corrected level : }", round(x$alpha_star,3))
   cli_text("{.emph Signif. codes:} {.red {symbol$cross}} Not Equivalent; {.green {symbol$tick}} Equivalent")
 }
 

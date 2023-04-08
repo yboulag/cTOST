@@ -11,7 +11,7 @@ equivalence in the univariate framework. This assessment is based on the
 state-of-the-art Two One-Sided Tests (TOST), and a corrective procedure
 applied to the TOST in order to ensure the preservation of the Type I
 error rate at the desired significance level and a uniform increase in
-power. More details can be found in Boulaguiem et al. (2023) that you
+power. More details can be found in Boulaguiem et al. (2023) that you
 can access via this
 [link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v2.full)
 
@@ -38,7 +38,7 @@ devtools::install_github("cTOST")
 
 In order the demonstrate the use of the function `cTOST`, we will use it
 on a dataset included in the package. The dataset, provided by Quartier
-et al. (2019), contains 17 pairs of comparable porcine skin samples on
+et al. (2019), contains 17 pairs of comparable porcine skin samples on
 which measurements of econazole nitrate deposition (an antifungal
 medication used to treat skin infections) were collected using two
 (supposedly) bioequivalent products. These measurements were then
@@ -60,8 +60,8 @@ head(skin)
 #> Obs.6  6.445193 6.998245
 ```
 
-The following code allows to reproduce Figure 1 of Boulaguiem et
-al. (2023):
+The following code allows to reproduce Figure 1 of Boulaguiem et al.
+(2023):
 
 ``` r
 par(mar=c(2.5,5,0,0))
@@ -97,45 +97,18 @@ alpha <- 0.05
 delta <- log(1.25)
 out <- cTOST(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu, delta=delta)
 print(out)
-#> $theta
-#>    Generic 
-#> 0.02270215 
-#> 
-#> $sigma_nu
-#> [1] 0.1342837
-#> 
-#> $nu
-#> [1] 16
-#> 
-#> $delta
-#> [1] 0.2231436
-#> 
-#> $alpha
-#> [1] 0.05
-#> 
-#> $alpha_star
-#> [1] 0.07865711
-#> 
-#> $TOST_ci
-#>              lower     upper
-#> Generic -0.2117415 0.2571458
-#> 
-#> $TOST_decision
-#> [1] 0
-#> 
-#> $aTOST_ci
-#>              lower     upper
-#> Generic -0.1765374 0.2219417
-#> 
-#> $aTOST_decision
-#> [1] 1
-#> 
-#> attr(,"class")
-#> [1] "cTOST"
+#> Procedure     CI - low.      CI - up.   Equiv. lim.       Equiv.
+#>      TOST         -0.21          0.26          0.22
+#> ✖
+#>     aTOST         -0.18          0.22          0.22
+#> ✔
+#> Estimate : 0.023; Std. error : 0.134; Signif. level : 0.05; Corrected level :
+#> 0.079
+#> Signif. codes: ✖ Not Equivalent; ✔ Equivalent
 ```
 
 To visually assess equivalence with the interval inclusion principal, we
-reproduce Figure 2 of Boulaguiem et al. (2023) with the following code:
+reproduce Figure 2 of Boulaguiem et al. (2023) with the following code:
 
 ``` r
 plot(NA, axes = F, xlim = c(-0.25, 0.25), ylim = c(0.5, 2.5),
@@ -185,4 +158,26 @@ mtext(expression(theta), side = 1, line = 2.35, cex = 1.4)
 
 ![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
-# Referencess
+# References
+
+<div id="refs" class="references csl-bib-body hanging-indent">
+
+<div id="ref-boulaguiem2023finite" class="csl-entry">
+
+Boulaguiem, Younes, Julie Quartier, Maria Lapteva, Yogeshvar N Kalia,
+Maria-Pia Victoria-Feser, Stéphane Guerrier, and Dominique-Laurent
+Couturier. 2023. “Finite Sample Adjustments for Average Equivalence
+Testing.” *bioRxiv*, 2023–03.
+
+</div>
+
+<div id="ref-quartier2019cutaneous" class="csl-entry">
+
+Quartier, Julie, Ninon Capony, Maria Lapteva, and Yogeshvar N Kalia.
+2019. “Cutaneous Biodistribution: A High-Resolution Methodology to
+Assess Bioequivalence in Topical Skin Delivery.” *Pharmaceutics* 11 (9):
+484.
+
+</div>
+
+</div>

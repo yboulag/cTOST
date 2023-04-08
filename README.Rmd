@@ -17,7 +17,7 @@ library(cTOST)
  
 # `cTOST` Overview
 
-This repository holds the `cTOST` R package. This package contains a function of the same name, `cTOST`, that provides an assessment of equivalence in the univariate framework. This assessment is based on the state-of-the-art Two One-Sided Tests (TOST), and a corrective procedure applied to the TOST in order to ensure the preservation of the Type I error rate at the desired significance level and a uniform increase in power. More details can be found in Boulaguiem et al. (2023) that you can access via this [link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v2.full)
+This repository holds the `cTOST` R package. This package contains a function of the same name, `cTOST`, that provides an assessment of equivalence in the univariate framework. This assessment is based on the state-of-the-art Two One-Sided Tests (TOST), and a corrective procedure applied to the TOST in order to ensure the preservation of the Type I error rate at the desired significance level and a uniform increase in power. More details can be found in @boulaguiem2023finite that you can access via this [link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v2.full)
 
 # Install Instructions
 
@@ -34,7 +34,7 @@ devtools::install_github("cTOST")
 
 # Equivalence Assessment 
 
-In order the demonstrate the use of the function `cTOST`, we will use it on a dataset included in the package. The dataset, provided by Quartier et al. (2019), contains $17$ pairs of comparable porcine skin samples on which measurements of econazole nitrate deposition (an antifungal medication used to treat skin infections) were collected using two (supposedly) bioequivalent products. These measurements were then considered on the logarithmic scale and saved as an RData file called `skin`. 
+In order the demonstrate the use of the function `cTOST`, we will use it on a dataset included in the package. The dataset, provided by @quartier2019cutaneous, contains $17$ pairs of comparable porcine skin samples on which measurements of econazole nitrate deposition (an antifungal medication used to treat skin infections) were collected using two (supposedly) bioequivalent products. These measurements were then considered on the logarithmic scale and saved as an RData file called `skin`. 
 
 After installing the package, you can simply print the dataset by running `skin` on your console (the dataset has been lazy loaded into the package). 
 
@@ -42,12 +42,16 @@ After installing the package, you can simply print the dataset by running `skin`
 head(skin)
 ```
 
-The following code allows to reproduce Figure 1 of Boulaguiem et al. (2023):
+The following code allows to reproduce Figure 1 of @boulaguiem2023finite:
 
 ```{r, eval=TRUE}
 par(mar=c(2.5,5,0,0))
+
+# Empty plot
 plot(1,1,pch="",axes=FALSE,xlab="",ylab="",main="",
      ylim=c(min(unlist(skin)),log(4000)),xlim=c(0.75, 2.25))
+
+# Plotting and linking the paired data points of each group
 for(i in 1:nrow(skin)){
   points(c(1,2),skin[i,],col=paste0(gray(0.1),50),pch=16)
   segments(1,skin[i,1],2,skin[i,2],
@@ -61,29 +65,51 @@ axis(2, at = mean(c(min(unlist(skin)),log(4000))), expression(paste("ECZ deposit
 Let us now extract from the dataset the components needed to run the `cTOST` function. We would need the difference of means between the two groups, the number of degrees of freedom, and the standard error:
 
 ```{r, eval=TRUE}
-theta <- diff(apply(skin,2,mean)) # The difference of means between the two groups
-nu <- nrow(skin)-1 # The number of degrees of freedom
-sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu) # The standard error
+# Difference in means between the two groups
+theta <- diff(apply(skin,2,mean)) 
+
+# Number of degrees of freedom
+nu <- nrow(skin)-1 
+
+# Standard error
+sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu) 
 ```
 
 Considering a significance level of $5\%$ and an equivalence limit at $\text{delta}=log(1.25)$, the cTOST function is used as follows:
 
 ```{r, eval=TRUE}
+# Set the significance level 
 alpha <- 0.05
+
+# Set the equivalence limits
 delta <- log(1.25)
+
+# Compute the TOST and aTOST
 out <- cTOST(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu, delta=delta)
+
+# Print the results
 print(out)
 ```
 
-To visually assess equivalence with the interval inclusion principal, we reproduce Figure 2 of Boulaguiem et al. (2023) with the following code: 
+To visually assess equivalence with the interval inclusion principal, we reproduce Figure 2 of @boulaguiem2023finite with the following code: 
 
 ```{r, eval=TRUE}
+# Empty plot
 plot(NA, axes = F, xlim = c(-0.25, 0.25), ylim = c(0.5, 2.5),
      xlab = " ", ylab = " ")
 
+# Corrected level used by aTOST
+alpha_star = out$alpha_star
+
+# TOST's CI upper and lower bound
 a1 = theta + sigma_nu*qt(alpha, df = nu)
 a2 = theta - sigma_nu*qt(alpha, df = nu)
 
+# aTOST's CI upper and lower bound 
+b1 = theta + sigma_nu*qt(alpha_star, df = nu)
+b2 = theta - sigma_nu*qt(alpha_star, df = nu)
+
+# Set the colors and their transparent counterpart
 cols=c("coral","palegreen2")
 t.cols=sapply(c("coral","palegreen2"),function(x){
   rgb.val <- col2rgb(x)
@@ -91,26 +117,23 @@ t.cols=sapply(c("coral","palegreen2"),function(x){
       max = 255,
       alpha = 127.5)
 })
+
+# Plotting the TOST and aTOST CIs
 d = 0.1
 polygon(c(a1, a2, a2, a1), c(1-d, 1-d, 1+d, 1+d) + 1, border = NA,
         col = t.cols[1])
-
 polygon(c(delta, a2, a2, delta), c(1-d, 1-d, 1+d, 1+d) + 1, border = NA,
         col = cols[1], density = 20, angle = 45)
 polygon(c(delta, a2, a2, delta), c(1-d, 1-d, 1+d, 1+d) + 1, border = NA,
         col = cols[1], density = 20, angle = -45)
-
-alpha_star = out$alpha_star
-
-b1 = theta + sigma_nu*qt(alpha_star, df = nu)
-b2 = theta - sigma_nu*qt(alpha_star, df = nu)
-
 polygon(c(b1, b2, b2, b1), c(1-d, 1-d, 1+d, 1+d), border = NA,
         col = t.cols[2])
 
+# Plotting the difference in means
 points(theta, 2, col = cols[1], pch = 16, cex = 2.5)
 points(theta, 1, col = cols[2], pch = 16, cex = 2.5)
 
+# Adding text for readability
 text(0.15, 2 + 1.75*d, "TOST CI")
 text(0.15, 1 + 1.75*d, expression(paste(alpha,"TOST CI")))
 
