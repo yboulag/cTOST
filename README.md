@@ -65,8 +65,12 @@ The following code allows to reproduce Figure 1 of Boulaguiem et al.
 
 ``` r
 par(mar=c(2.5,5,0,0))
+
+# Empty plot
 plot(1,1,pch="",axes=FALSE,xlab="",ylab="",main="",
      ylim=c(min(unlist(skin)),log(4000)),xlim=c(0.75, 2.25))
+
+# Plotting and linking the paired data points of each group
 for(i in 1:nrow(skin)){
   points(c(1,2),skin[i,],col=paste0(gray(0.1),50),pch=16)
   segments(1,skin[i,1],2,skin[i,2],
@@ -84,18 +88,30 @@ Let us now extract from the dataset the components needed to run the
 groups, the number of degrees of freedom, and the standard error:
 
 ``` r
-theta <- diff(apply(skin,2,mean)) # The difference of means between the two groups
-nu <- nrow(skin)-1 # The number of degrees of freedom
-sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu) # The standard error
+# Difference in means between the two groups
+theta <- diff(apply(skin,2,mean)) 
+
+# Number of degrees of freedom
+nu <- nrow(skin)-1 
+
+# Standard error
+sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu) 
 ```
 
 Considering a significance level of 5% and an equivalence limit at
 delta = *l**o**g*(1.25), the cTOST function is used as follows:
 
 ``` r
+# Set the significance level 
 alpha <- 0.05
+
+# Set the equivalence limits
 delta <- log(1.25)
+
+# Compute the TOST and aTOST
 out <- cTOST(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu, delta=delta)
+
+# Print the results
 print(out)
 #> Procedure     CI - low.      CI - up.   Equiv. lim.       Equiv.
 #>      TOST         -0.21          0.26          0.22
@@ -111,12 +127,22 @@ To visually assess equivalence with the interval inclusion principal, we
 reproduce Figure 2 of Boulaguiem et al. (2023) with the following code:
 
 ``` r
+# Empty plot
 plot(NA, axes = F, xlim = c(-0.25, 0.25), ylim = c(0.5, 2.5),
      xlab = " ", ylab = " ")
 
+# Corrected level used by aTOST
+alpha_star = out$alpha_star
+
+# TOST's CI upper and lower bound
 a1 = theta + sigma_nu*qt(alpha, df = nu)
 a2 = theta - sigma_nu*qt(alpha, df = nu)
 
+# aTOST's CI upper and lower bound 
+b1 = theta + sigma_nu*qt(alpha_star, df = nu)
+b2 = theta - sigma_nu*qt(alpha_star, df = nu)
+
+# Set the colors and their transparent counterpart
 cols=c("coral","palegreen2")
 t.cols=sapply(c("coral","palegreen2"),function(x){
   rgb.val <- col2rgb(x)
@@ -124,26 +150,23 @@ t.cols=sapply(c("coral","palegreen2"),function(x){
       max = 255,
       alpha = 127.5)
 })
+
+# Plotting the TOST and aTOST CIs
 d = 0.1
 polygon(c(a1, a2, a2, a1), c(1-d, 1-d, 1+d, 1+d) + 1, border = NA,
         col = t.cols[1])
-
 polygon(c(delta, a2, a2, delta), c(1-d, 1-d, 1+d, 1+d) + 1, border = NA,
         col = cols[1], density = 20, angle = 45)
 polygon(c(delta, a2, a2, delta), c(1-d, 1-d, 1+d, 1+d) + 1, border = NA,
         col = cols[1], density = 20, angle = -45)
-
-alpha_star = out$alpha_star
-
-b1 = theta + sigma_nu*qt(alpha_star, df = nu)
-b2 = theta - sigma_nu*qt(alpha_star, df = nu)
-
 polygon(c(b1, b2, b2, b1), c(1-d, 1-d, 1+d, 1+d), border = NA,
         col = t.cols[2])
 
+# Plotting the difference in means
 points(theta, 2, col = cols[1], pch = 16, cex = 2.5)
 points(theta, 1, col = cols[2], pch = 16, cex = 2.5)
 
+# Adding text for readability
 text(0.15, 2 + 1.75*d, "TOST CI")
 text(0.15, 1 + 1.75*d, expression(paste(alpha,"TOST CI")))
 
