@@ -201,7 +201,6 @@ print.cTOST = function(x, ...){
   cli_text("{.emph Signif. codes:} {.red {symbol$cross}} Not Equivalent; {.green {symbol$tick}} Equivalent")
 }
 
-print(x)
 
 
 
