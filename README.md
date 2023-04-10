@@ -35,13 +35,14 @@ devtools::install_github("cTOST")
 # Equivalence Assessment
 
 In order the demonstrate the use of the function `cTOST`, we will use it
-on a dataset included in the package. The dataset, provided by Quartier
-et al. (2019), contains 17 pairs of comparable porcine skin samples on
-which measurements of econazole nitrate deposition (an antifungal
-medication used to treat skin infections) were collected using two
-(supposedly) bioequivalent products. These measurements were then
-considered on the logarithmic scale and saved as an RData file called
-`skin`.
+on a dataset included in the package. The dataset was obtained using the
+cutaneous bioequivalence method detailed in Quartier et al. (2019) and
+was provided by the same authors.It contains 17 pairs of comparable
+porcine skin samples on which measurements of econazole nitrate
+deposition (an antifungal medication used to treat skin infections) were
+collected using two (supposedly) bioequivalent products. These
+measurements were then considered on the logarithmic scale and saved as
+an RData file called `skin`.
 
 After installing the package, you can simply print the dataset by
 running `skin` on your console (the dataset has been lazy loaded into
