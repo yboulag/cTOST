@@ -1,8 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit this file -->
 
-[![R-CMD-check](https://github.com/yboulag/cTOST/workflows/R-CMD-check/badge.svg)](https://github.com/yboulag/cTOST/actions)
-
 # `cTOST` Overview
 
 This repository holds the `cTOST` R package. This package contains a
@@ -13,7 +11,7 @@ applied to the TOST in order to ensure the preservation of the Type I
 error rate at the desired significance level and a uniform increase in
 power. More details can be found in Boulaguiem et al. (2023) that you
 can access via this
-[link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v2.full)
+[link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3).
 
 # Install Instructions
 

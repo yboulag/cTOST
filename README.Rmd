@@ -12,12 +12,10 @@ knitr::opts_chunk$set(
 )
 library(cTOST)
 ```
-
- [![R-CMD-check](https://github.com/yboulag/cTOST/workflows/R-CMD-check/badge.svg)](https://github.com/yboulag/cTOST/actions)
  
 # `cTOST` Overview
 
-This repository holds the `cTOST` R package. This package contains a function of the same name, `cTOST`, that provides an assessment of equivalence in the univariate framework. This assessment is based on the state-of-the-art Two One-Sided Tests (TOST), and a corrective procedure applied to the TOST in order to ensure the preservation of the Type I error rate at the desired significance level and a uniform increase in power. More details can be found in @boulaguiem2023finite that you can access via this [link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v2.full)
+This repository holds the `cTOST` R package. This package contains a function of the same name, `cTOST`, that provides an assessment of equivalence in the univariate framework. This assessment is based on the state-of-the-art Two One-Sided Tests (TOST), and a corrective procedure applied to the TOST in order to ensure the preservation of the Type I error rate at the desired significance level and a uniform increase in power. More details can be found in @boulaguiem2023finite that you can access via this [link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3).
 
 # Install Instructions
 
