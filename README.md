@@ -168,7 +168,7 @@ points(theta, 1, col = cols[2], pch = 16, cex = 2.5)
 text(0.15, 2 + 1.75*d, "TOST CI")
 text(0.15, 1 + 1.75*d, expression(paste(alpha,"TOST CI")))
 
-text(0.22, 2 - 1.75*d, "Outside (-c, c)", cex = 0.8)
+text(0.22, 2 - 1.75*d, expression(paste("outside (-",delta,", ",delta,")")), cex = 0.8)
 abline(v = c(-0.3, -log(1.25), -0.1, 0, 0.1, log(1.25), 0.3),
        col = "grey65", lty = 2)
 axis(1, at = c(-0.3, -log(1.25), -0.1, 0, 0.1, log(1.25), 0.3),
