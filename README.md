@@ -37,7 +37,7 @@ devtools::install_github("cTOST")
 In order the demonstrate the use of the function `cTOST`, we will use it
 on a dataset included in the package. The dataset was obtained using the
 cutaneous bioequivalence method detailed in Quartier et al. (2019) and
-was provided by the same authors.It contains 17 pairs of comparable
+was provided by the same authors. It contains 17 pairs of comparable
 porcine skin samples on which measurements of econazole nitrate
 deposition (an antifungal medication used to treat skin infections) were
 collected using two (supposedly) bioequivalent products. These
