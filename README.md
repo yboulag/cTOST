@@ -120,7 +120,7 @@ res_tost
 
 <img src="README_files/figure-gfm//unnamed-chunk-8.svg" width="100%" />
 
-## *α* − *T**O**S**T*
+## *α*-TOST
 
 ``` r
 res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
@@ -136,7 +136,7 @@ compare_to_tost(res_atost)
 
 <img src="README_files/figure-gfm//unnamed-chunk-12.svg" width="100%" />
 
-## *δ* − *T**O**S**T*
+## *δ*-TOST
 
 ``` r
 res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu,

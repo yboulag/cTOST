@@ -109,7 +109,7 @@ res_tost = tost(theta = theta_hat, sigma = sig_hat, nu = nu,
 res_tost
 ```
 
-## $\alpha-TOST$
+## $\alpha$-TOST
 
 ```{r, eval = F}
 res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
@@ -143,7 +143,7 @@ res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
 compare_to_tost(res_atost)
 ```
 
-## $\delta-TOST$
+## $\delta$-TOST
 
 ```{r, eval = F}
 res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu,
