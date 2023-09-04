@@ -158,11 +158,6 @@ To visually assess equivalence with the interval inclusion principal, we
 reproduce Figure 2 of Boulaguiem et al. (2023) with the following code:
 
 ``` r
-res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
-```
-
-``` r
 # Nominal level and zquivalence bounds
 alpha = 0.05
 delta = log(1.25)

@@ -181,7 +181,7 @@ compare_to_tost(res_dtost)
 
 To visually assess equivalence with the interval inclusion principal, we reproduce Figure 2 of @boulaguiem2023finite with the following code: 
 
-```{r include=TRUE}
+```{r include=FALSE}
 res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
               alpha = 0.05, delta = log(1.25))
 ```
