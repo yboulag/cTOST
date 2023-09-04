@@ -103,7 +103,6 @@ BE = function(ci, delta, ...){
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
 #' @return The function returns an object of class `matrix`.
-#' @export
 #' @examples
 #' theta <- diff(apply(skin,2,mean))
 #' nu <- nrow(skin)-1
@@ -139,7 +138,6 @@ cTOST = function(alpha, theta, sigma_nu, nu, delta, ...){
 
 #' @title Extract relevant info to format
 #' @author Younes Boulaguiem, Stéphane Guerrier, etc.
-#' @export
 #'
 coef.cTOST = function(x, ...){
   method = c("TOST","aTOST")
@@ -151,69 +149,803 @@ coef.cTOST = function(x, ...){
   df
 }
 
-#' @title Print the results of the equivalence assessment
-#' @author Younes Boulaguiem, Stéphane Guerrier, etc.
-#' @export
+#' @title Two One-Sided Test (TOST) for Equivalence Testing
 #'
-print.cTOST = function(x, ...){
-  cTOST_coef = coef(x)[,1:3]
-  nom = rownames(cTOST_coef)
-  var_name = "Procedure"
-  BE = TRUE
-  m = max(c(nchar(nom), nchar(var_name)))
-  n = length(nom)
-
-  space = "   "
-  cTOST_coef_to_print = format(cTOST_coef, digits = 2, justify = "right", width = 11)
-  col_nom = colnames(cTOST_coef_to_print)
-  cat(sprintf(paste("%", m, "s", sep = ""), var_name))
-
-  for (i in 1:(length(col_nom))){
-    cat(space)
-    cat(sprintf(paste("%", max(nchar(cTOST_coef_to_print[,i])), "s", sep = ""), col_nom[i]))
-  }
-  cat(space)
-  cat(space)
-  cat(" Equiv.")
-  cat("\n")
-
-  decision = c(x$TOST_decision,x$aTOST_decision)
-  decision_label = sapply(decision, function(y) if(y) "Yes" else "No")
-
-  for (i in 1:n){
-    cat(sprintf(paste("%", m, "s", sep = ""), nom[i]))
-    for (j in 1:(length(col_nom))){
-      cat(space)
-      cat(cTOST_coef_to_print[i,j])
-    }
-    cat(space)
-    cat(space)
-
-    abs_max_ci = max(abs(cTOST_coef[i,1:2]))
-
-    if (abs_max_ci > cTOST_coef[i,3]){
-      cat(" ")
-      BE = FALSE
-      cli_text(col_red("{symbol$cross}"))
-    }else{
-      cat(" ")
-      cli_text(col_green(" {symbol$tick} "))
-    }
-  }
-  cli_div(theme = list(span.red = list(color = "red")))
-  cli_div(theme = list(span.green = list(color = "green")))
-  cli_text("{.emph Estimate : }", round(x$theta,3), "; {.emph Std. error : }", round(x$sigma_nu,3),
-           "; {.emph Signif. level : }", alpha, "; {.emph Corrected level : }", round(x$alpha_star,3))
-  cli_text("{.emph Signif. codes:} {.red {symbol$cross}} Not Equivalent; {.green {symbol$tick}} Equivalent")
+#' @description This function performs a Two One-Sided Test (TOST) for equivalence testing.
+#'
+#' @param theta                 A \code{numeric} value corresponding to the difference of means.
+#' @param sigma                 A \code{numeric} value corresponding to the the standard error.
+#' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
+#' @param alpha                 A \code{numeric} value specifying the significance level.
+#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#'
+#' @return A list containing the TOST decision, confidence interval (CI), difference of means, standard error,
+#' degrees of freedom, significance level, and the method used ("TOST").
+#'
+#' @examples
+#' data(skin)
+#'
+#' theta_hat = diff(apply(skin,2,mean))
+#' nu = nrow(skin) - 1
+#' sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
+#' tost(theta = theta_hat, sigma = sig_hat, nu = nu,
+#'      alpha = 0.05, delta = log(1.25))
+#'
+#' @export
+tost = function(theta, sigma, nu, alpha, delta){
+  decision = abs(theta) < (delta - qt(1 - alpha, df = nu) * sigma)
+  ci = theta + c(-1, 1) * qt(1 - alpha, df = nu) * sigma
+  out = list(decision = decision, ci = ci, theta = theta,
+             sigma = sigma, nu = nu, alpha = alpha,
+             delta = delta, method = "TOST")
+  class(out) = "tost"
+  out
 }
 
 
+#' @title The alpha-TOST Corrective Procedure for Equivalence Testing
+#'
+#' @description This functions is used to compute the alpha-TOST, a corrective procedure of the significance level applied to the Two One-Sided Test (TOST) for equivalence testing in the univariate framework.
+#'
+#' @param theta                 A \code{numeric} value corresponding to the difference of means.
+#' @param sigma                 A \code{numeric} value corresponding to the the standard error.
+#' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
+#' @param alpha                 A \code{numeric} value specifying the significance level.
+#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#'
+#' @return A list containing the alpha-TOST decision, the corrected confidence interval (CI), estimated mean, estimated standard error,
+#' degrees of freedom, nominal level, corrected level, equivalence bounds, and the method used ("alpha-TOST").
+#'
+#' @examples
+#' data(skin)
+#'
+#' theta_hat = diff(apply(skin,2,mean))
+#' nu = nrow(skin) - 1
+#' sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
+#' res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
+#'               alpha = 0.05, delta = log(1.25))
+#' res_atost
+#' compare_to_tost(res_atost)
+#'
+#' @export
+atost = function(theta, sigma, nu, alpha, delta){
+  corrected_alpha = alphahat.fun(sigma = sigma, nu = nu, alpha = alpha, delta = delta)
+  decision = abs(theta) < (delta - qt(1 - corrected_alpha, df = nu) * sigma)
+  ci = theta + c(-1, 1) * qt(1 - corrected_alpha, df = nu) * sigma
+  out = list(decision = decision, ci = ci, theta = theta,
+             sigma = sigma, nu = nu, alpha = alpha,
+             corrected_alpha = corrected_alpha,
+             delta = delta, method = "alpha-TOST")
+  class(out) = "tost"
+  out
+}
+
+#' @title Get Corrected Level
+#'
+#' @description This function applies the  alpha-TOST corrective procedure to obtain the corrected level.
+#'
+#' @param sigma                 A \code{numeric} value corresponding to the the standard error.
+#' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
+#' @param alpha                 A \code{numeric} value specifying the significance level.
+#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param tol                   A \code{numeric} value corresponding to the tolerance to be applied during the optimization (see `optim`)
+#'
+#' @importFrom stats qt
+alphahat.fun = function(sigma, nu, alpha, delta, tol=1e-7){
+  K = 10000
+  alpha.k = c(alpha,rep(NA,K-1))
+  for(k in 2:K){
+    tval       = qt(1 - alpha.k[k-1], df = nu)
+    delta1     = (2*delta)/sigma
+    delta2     = 0
+    R          = (delta*sqrt(nu))/(tval*sigma)
+    # NOTE: OwenQ:::powen4 unreliable
+    #       OwenQ:::ipowen4 gets very close results to PowerTOST but faster
+    omega      = OwenQ:::ipowen4(nu, tval, -tval, delta1, delta2)
+    alpha.k[k] = min(c(alpha + alpha.k[k-1] - omega,0.5))
+    # alpha.k[k] = alpha + alpha.k[k-1] - omega
+    if(abs(alpha.k[k]-alpha.k[k-1])<tol){break}
+  }
+  # out
+  ifelse(k==K,NA,alpha.k[k])
+}
+
+#' @title The delta-TOST Corrective Procedure for Equivalence Testing
+#'
+#' @description This functions is used to compute the delta-TOST, a corrective procedure of the equivalence bounds applied to the Two One-Sided Test (TOST) for equivalence testing in the univariate framework.
+#'
+#' @param theta                 A \code{numeric} value corresponding to the difference of means.
+#' @param sigma                 A \code{numeric} value corresponding to the the standard error.
+#' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
+#' @param alpha                 A \code{numeric} value specifying the significance level.
+#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#'
+#' @return A list containing the delta-TOST decision, the corrected confidence interval (CI), estimated mean, estimated standard error,
+#' degrees of freedom, nominal level, equivalence bounds, corrected equivalence bounds, and the method used ("delta-TOST").
+#'
+#' @examples
+#' data(skin)
+#'
+#' theta_hat = diff(apply(skin,2,mean))
+#' nu = nrow(skin) - 1
+#' sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
+#' res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu,
+#'               alpha = 0.05, delta = log(1.25))
+#' res_dtost
+#' compare_to_tost(res_dtost)
+#'
+#' @export
+dtost = function(theta, sigma, nu, alpha, delta){
+  corrected_delta = deltahat.fun(sigma = sigma, alpha = alpha, delta = delta, nu = nu)
+  decision = abs(theta) < (corrected_delta - qt(1 - alpha, df = nu) * sigma)
+  ci = theta + c(-1, 1) * qt(1 - alpha, df = nu) * sigma
+  out = list(decision = decision, ci = ci, theta = theta,
+             sigma = sigma, nu = nu, alpha = alpha,
+             corrected_delta = corrected_delta,
+             delta = delta, method = "delta-TOST")
+  class(out) = "tost"
+  out
+}
+
+#' Get Corrected Equivalence Bounds
+#'
+#' This function applies the  delta-TOST corrective procedure to obtain the corrected equivalence bounds
+#'
+#' @param sigma                 A \code{numeric} value corresponding to the the standard error.
+#' @param alpha                 A \code{numeric} value specifying the significance level.
+#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
+#'
+#' @importFrom stats optimize
+#'
+deltahat.fun = function(sigma, alpha, delta, nu){
+  # sigma = dfw$sigma.hat[546]; delta=log(1.25);tol=1e-8
+
+  # Check estimated Type I error, i.e. |estimated size - alpha|
+  size_error = sqrt(obj_fun_delta_hat(delta_star = delta, sigma = sigma, alpha = alpha,
+                                      delta = delta, nu = nu)/10^8)
+
+  if (size_error < 10^(-4)){
+    return(delta)
+  }else{
+    m = 1000
+    delta.m = seq(from = delta, to = 15*delta, length.out = m)
+    omega.m = rep(NA,m)
+    for (i in 1:m){
+      delta_star = delta.m[i]
+      tval       = qt(1 - alpha, df = nu)
+      delta1     = (delta + delta_star)/sigma
+      delta2     = (delta - delta_star)/sigma
+      R          = (delta_star*sqrt(nu))/(tval*sigma)
+      omega.m[i] = OwenQ:::ipowen4(nu, tval, -tval, delta1, delta2)
+      if(omega.m[i]>(alpha+0.01)){
+        break
+      }
+    }
+    above     = delta.m[omega.m>(alpha+0.01)&!is.na(omega.m)]
+    below     = delta.m[omega.m<alpha&!is.na(omega.m)]
+    #if(length(above)==0&length(below)==0){
+    #    return(delta)
+    #}else{
+    max_delta = ifelse(length(above)==0,1.1*delta,max(1.1*delta, min(above)))
+    min_delta = ifelse(length(above)==0,delta,max(delta, max(below)))
+    res = optimize(obj_fun_delta_hat, c(min_delta, max_delta), sigma = sigma, alpha = alpha,
+                   delta = delta, nu = nu)
+
+    if (sqrt(res$objective/10^8) > 10^(-4)){
+
+      m = 10000
+      delta.m = seq(from = delta, to = 15*delta, length.out = m)
+      omega.m = rep(NA,m)
+      for (i in 1:m){
+        delta_star = delta.m[i]
+        tval       = qt(1 - alpha, df = nu)
+        delta1     = (delta + delta_star)/sigma
+        delta2     = (delta - delta_star)/sigma
+        R          = (delta_star*sqrt(nu))/(tval*sigma)
+        omega.m[i] = OwenQ:::ipowen4(nu, tval, -tval, delta1, delta2)
+        if(omega.m[i]>(alpha+0.01)){
+          break
+        }
+      }
+      above     = delta.m[omega.m>(alpha+0.01)&!is.na(omega.m)]
+      below     = delta.m[omega.m<alpha&!is.na(omega.m)]
+      max_delta = ifelse(length(above)==0,1.1*delta,max(1.1*delta, min(above)))
+      min_delta = ifelse(length(above)==0,delta,max(delta, max(below)))
+      res = optimize(obj_fun_delta_hat, c(min_delta, max_delta), sigma = sigma, alpha = alpha,
+                     delta = delta, nu = nu)
+      if (sqrt(res$objective/10^8) > 10^(-4)){
+        return(NA)
+      }else{
+        return(res$minimum)
+      }
+    }else{
+      return(res$minimum)
+    }
+    #}
+  }
+}
+
+#' Objective Function of the delta-TOST Corrective Procedure
+#'
+#' @param delta_star The equivalence bound parameter to be optimized.
+#' @param sigma The considered standard error.
+#' @param alpha The nominal level for the test.
+#' @param delta The equivalence bound used for the TOST decision.
+#' @param nu The degrees of freedom parameter.
+#'
+obj_fun_delta_hat = function(delta_star, sigma, alpha, delta, nu){
+  # delta_star = delta
+  tval       = qt(1 - alpha, df = nu)
+  delta1     = (delta + delta_star)/sigma
+  delta2     = (delta - delta_star)/sigma
+  R          = (delta_star*sqrt(nu))/(tval*sigma)
+  omega      = OwenQ:::ipowen4(nu, tval, -tval, delta1, delta2)
+  10^8*(omega - alpha)^2
+}
+
+#' Print Results of Equivalence Assessment
+#'
+#' @param x     An object of class "TOST", either the ouput of the functions `tost`, `atost` or `dtost`.
+#'
+#' @importFrom cli cli_text col_green col_red
+#'
+#' @rdname print.tost
+#'
+#' @export
+print.tost = function(x, ticks = 30, rn = 5, ...){
+
+  if (x$decision){
+    cli_text(col_green("{symbol$tick} Accept (bio)equivalence"))
+  }else{
+    cli_text(col_red("{symbol$cross} Can't accept (bio)equivalence"))
+  }
+
+  if (x$method == "delta-TOST"){
+    lower_be = x$ci[1] > -x$corrected_delta
+    upper_be = x$ci[2] < x$corrected_delta
+    rg = range(c(x$ci, x$corrected_delta, -x$corrected_delta))
+    rg_delta = rg[2] - rg[1]
+    std_be_interval = round(ticks*(c(-x$corrected_delta, x$corrected_delta) - rg[1])/rg_delta) + 1
+    std_zero = round(-ticks*rg[1]/rg_delta) + 1
+    std_fit_interval = round(ticks*(x$ci - rg[1])/rg_delta) + 1
+    std_fit_interval_center = round(ticks*(sum(x$ci)/2 - rg[1])/rg_delta) + 1
+  }else{
+    lower_be = x$ci[1] > -x$delta
+    upper_be = x$ci[2] < x$delta
+    rg = range(c(x$ci, x$delta, -x$delta))
+    rg_delta = rg[2] - rg[1]
+    std_be_interval = round(ticks*(c(-x$delta, x$delta) - rg[1])/rg_delta) + 1
+    std_zero = round(-ticks*rg[1]/rg_delta) + 1
+    std_fit_interval = round(ticks*(x$ci - rg[1])/rg_delta) + 1
+    std_fit_interval_center = round(ticks*(sum(x$ci)/2 - rg[1])/rg_delta) + 1
+  }
+
+  if (x$method == "delta-TOST"){
+    cat("Corr. Equiv. Region:  ")
+  }else{
+    cat("Equiv. Region:  ")
+  }
+
+  for (i in 1:(ticks+1)){
+    if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+      if (i == std_be_interval[1]){
+        cat(("|-"))
+      }else{
+        if (i ==  std_be_interval[2]){
+          cat(("-|"))
+        }else{
+          if (i == std_zero){
+            cat(("-0-"))
+          }else{
+            cat(("-"))
+          }
+        }
+      }
+    }else{
+      cat(" ")
+    }
+  }
+
+  cat("\n")
+
+  if (x$method == "delta-TOST"){
+    cat("      Estim. Inter.:  ")
+  }else{
+    cat("Estim. Inter.:  ")
+  }
+
+  for (i in 1:(ticks+1)){
+    if (i >= std_fit_interval[1] && i <= std_fit_interval[2]){
+      if (i == std_fit_interval[1]){
+        if (i > std_be_interval[1] && i < std_be_interval[2]){
+          cat(col_green("(-"))
+        }else{
+          if (lower_be){
+            cat(col_green("(-"))
+          }else{
+            cat(col_red("(-"))
+          }
+        }
+
+      }else{
+        if (i ==  std_fit_interval[2]){
+          if (i > std_be_interval[1] && i < std_be_interval[2]){
+            cat(col_green("-)"))
+          }else{
+            if (upper_be){
+              cat(col_green("-)"))
+            }else{
+              cat(col_red("-)"))
+            }
+          }
+
+        }else{
+          if (i == std_fit_interval_center){
+            if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+              cat(col_green("-x-"))
+            }else{
+              cat(col_red("-x-"))
+            }
+          }else{
+            if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+              cat(col_green("-"))
+            }else{
+              cat(col_red("-"))
+            }
+          }
+        }
+      }
+    }else{
+      cat(" ")
+    }
+  }
+  cat("\n")
+  cat("CI =  (")
+  cat(format(round(x$ci[1], rn), nsmall = rn))
+  cat(" ; ")
+  cat(format(round(x$ci[2], rn), nsmall = rn))
+  cat(")\n\n")
+
+  cat("Method: ")
+  cat(x$method)
+  cat("\n")
+  cat("alpha = ")
+  cat(x$alpha)
+  cat("; ")
+  cat("Equiv. lim. = +/- ")
+  cat(format(round(x$delta, rn), nsmall = rn))
+  cat("\n")
+  if (x$method == "alpha-TOST"){
+    cat("Corrected alpha = ")
+    cat(format(round(x$corrected_alpha, rn), nsmall = rn))
+    cat("\n")
+  }
+
+  if (x$method == "delta-TOST"){
+    cat("Corrected Equiv. lim. = +/- ")
+    cat(format(round(x$corrected_delta, rn), nsmall = rn))
+    cat("\n")
+  }
+
+  if (x$method == "x-TOST"){
+    cat("Estimated c(0) = ")
+    cat(format(round(x$c0, rn), nsmall = rn))
+    cat("\n")
+
+    cat("Finite sample correction: ")
+    cat(x$correction)
+    cat("\n")
+    if (x$correction %in% c("bootstrap", "offline")){
+      cat("Corrected alpha = ")
+      cat(format(round(x$correct_alpha, rn), nsmall = rn))
+      cat("\n")
+    }
+  }
+  cat("Mean = ")
+  cat(format(round(x$theta, rn), nsmall = rn))
+  cat("; ")
+  cat("Stand. dev. = ")
+  cat(format(round(x$sigma, rn), nsmall = rn))
+  cat("; ")
+  cat("df = ")
+  cat(x$nu)
+  cat("\n")
+}
+
+#' @title Comparison of a Corrective Procedure to the results of the Two One-Sided Tests (TOST)
+#'
+#' @description This function renders a comparison of the alpha-TOST or the delta-TOST outputs obtained with the functions `atost` or `dtost`, respectively, to the ones obtained with the TOST.
+#'
+#' @param x an object of class "TOST" that is the output of the functions `atost` or `dtost`.
+#' @param ticks an integer indicating the number of segments that will be printed to represent the confidence intervals.
+#' @param rn integer indicating the number of decimals places to be used (see function `round`) for the printed results.
+#'
+#' @importFrom cli cli_text col_green col_red
+#'
+#' @export
+compare_to_tost = function(x, ticks = 30, rn = 5){
+  result_tost = tost(theta = x$theta, sigma = x$sigma, nu = x$nu,
+                     alpha = x$alpha, delta = x$delta)
+
+  if (!(x$method %in% c("alpha-TOST", "delta-TOST", "x-TOST"))){
+    stop("This method is not compatible")
+  }
+
+  if (x$method == "delta-TOST"){
+    cat("TOST:       ")
+    if (result_tost$decision){
+      cli_text(col_green("{symbol$tick} Accept (bio)equivalence"))
+    }else{
+      cli_text(col_red("{symbol$cross} Can't accept (bio)equivalence"))
+    }
+
+    cat("delta-TOST: ")
+    if (x$decision){
+      cli_text(col_green("{symbol$tick} Accept (bio)equivalence"))
+    }else{
+      cli_text(col_red("{symbol$cross} Can't accept (bio)equivalence"))
+    }
+    cat("\n")
+
+    lower_be_tost = x$ci[1] > -x$delta
+    upper_be_tost = x$ci[2] < x$delta
+
+    lower_be_dtost = x$ci[1] > -x$corrected_delta
+    upper_be_dtost = x$ci[2] < x$corrected_delta
+
+    rg = range(c(x$ci, result_tost$ci, x$delta, -x$delta, x$corrected_delta, -x$corrected_delta))
+    rg_delta = rg[2] - rg[1]
+    std_be_interval = round(ticks*(c(-x$delta, x$delta) - rg[1])/rg_delta) + 1
+    std_zero = round(-ticks*rg[1]/rg_delta) + 1
+
+    std_be_interval_cor = round(ticks*(c(-x$corrected_delta, x$corrected_delta) - rg[1])/rg_delta) + 1
+    std_zero_cor = round(-ticks*rg[1]/rg_delta) + 1
+
+    std_fit_interval_tost = round(ticks*(result_tost$ci - rg[1])/rg_delta) + 1
+    std_fit_interval_center_tost = round(ticks*(sum(result_tost$ci)/2 - rg[1])/rg_delta) + 1
+
+    cat("Stand. Equiv. Region:  ")
+
+    for (i in 1:(ticks+1)){
+      if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+        if (i == std_be_interval[1]){
+          cat(("|-"))
+        }else{
+          if (i ==  std_be_interval[2]){
+            cat(("-|"))
+          }else{
+            if (i == std_zero){
+              cat(("-0-"))
+            }else{
+              cat(("-"))
+            }
+          }
+        }
+      }else{
+        cat(" ")
+      }
+    }
+    cat("\n")
+    cat(" Corr. Equiv. Region:  ")
+
+    for (i in 1:(ticks+1)){
+      if (i >= std_be_interval_cor[1] && i <= std_be_interval_cor[2]){
+        if (i == std_be_interval_cor[1]){
+          cat(("|-"))
+        }else{
+          if (i ==  std_be_interval_cor[2]){
+            cat(("-|"))
+          }else{
+            if (i == std_zero_cor){
+              cat(("-0-"))
+            }else{
+              cat(("-"))
+            }
+          }
+        }
+      }else{
+        cat(" ")
+      }
+    }
+    cat("\n")
+    cat("                TOST:  ")
+    for (i in 1:(ticks+1)){
+      if (i >= std_fit_interval_tost[1] && i <= std_fit_interval_tost[2]){
+        if (i == std_fit_interval_tost[1]){
+          if (i > std_be_interval[1] && i < std_be_interval[2]){
+            cat(col_green("(-"))
+          }else{
+            if (lower_be_tost){
+              cat(col_green("(-"))
+            }else{
+              cat(col_red("(-"))
+            }
+          }
+
+        }else{
+          if (i ==  std_fit_interval_tost[2]){
+            if (i > std_be_interval[1] && i < std_be_interval[2]){
+              cat(col_green("-)"))
+            }else{
+              if(upper_be_tost){
+                cat(col_green("-)"))
+              }else{
+                cat(col_red("-)"))
+              }
+            }
+
+          }else{
+            if (i == std_fit_interval_center_tost){
+              if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+                cat(col_green("-x-"))
+              }else{
+                cat(col_red("-x-"))
+              }
+            }else{
+              if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+                cat(col_green("-"))
+              }else{
+                cat(col_red("-"))
+              }
+            }
+          }
+        }
+      }else{
+        cat(" ")
+      }
+    }
+    cat("\n")
+    cat("          delta-TOST:  ")
+    for (i in 1:(ticks+1)){
+      if (i >= std_fit_interval_tost[1] && i <= std_fit_interval_tost[2]){
+        if (i == std_fit_interval_tost[1]){
+          if (i > std_be_interval_cor[1] && i < std_be_interval_cor[2]){
+            cat(col_green("(-"))
+          }else{
+            if(lower_be_dtost){
+              cat(col_green("-)"))
+            }else{
+              cat(col_red("-)"))
+            }
+          }
+
+        }else{
+          if (i ==  std_fit_interval_tost[2]){
+            if (i > std_be_interval_cor[1] && i < std_be_interval_cor[2]){
+              cat(col_green("-)"))
+            }else{
+              if(upper_be_dtost){
+                cat(col_green("-)"))
+              }else{
+                cat(col_red("-)"))
+              }
+            }
+
+          }else{
+            if (i == std_fit_interval_center_tost){
+              if (i >= std_be_interval_cor[1] && i <= std_be_interval_cor[2]){
+                cat(col_green("-x-"))
+              }else{
+                cat(col_red("-x-"))
+              }
+            }else{
+              if (i >= std_be_interval_cor[1] && i <= std_be_interval_cor[2]){
+                cat(col_green("-"))
+              }else{
+                cat(col_red("-"))
+              }
+            }
+          }
+        }
+      }else{
+        cat(" ")
+      }
+    }
+
+    cat("\n")
+    cat("\n")
+    cat(" Standard Equiv. lim. = +/- ")
+    cat(format(round(x$delta, rn), nsmall = rn))
+    cat("\n")
+
+    cat("Corrected Equiv. lim. = +/- ")
+    cat(format(round(x$corrected_delta, rn), nsmall = rn))
+    cat("\n")
+  }
+
+  if (x$method %in% c("alpha-TOST", "x-TOST")){
+
+    lower_be_atost = x$ci[1] > -x$delta
+    upper_be_atost = x$ci[2] < x$delta
+    lower_be_tost = result_tost$ci[1] > -x$delta
+    upper_be_tost = result_tost$ci[2] < x$delta
+
+    if (x$method == "alpha-TOST"){
+      cat("TOST:       ")
+    }else{
+      cat("TOST:   ")
+    }
+    if (result_tost$decision){
+      cli_text(col_green("{symbol$tick} Accept (bio)equivalence"))
+    }else{
+      cli_text(col_red("{symbol$cross} Can't accept (bio)equivalence"))
+    }
 
 
+    if (x$method == "alpha-TOST"){
+      cat("alpha-TOST: ")
+    }else{
+      cat("x-TOST: ")
+    }
 
+    if (x$decision){
+      cli_text(col_green("{symbol$tick} Accept (bio)equivalence"))
+    }else{
+      cli_text(col_red("{symbol$cross} Can't accept (bio)equivalence"))
+    }
+    cat("\n")
 
+    rg = range(c(x$ci, result_tost$ci, x$delta, -x$delta))
+    rg_delta = rg[2] - rg[1]
+    std_be_interval = round(ticks*(c(-x$delta, x$delta) - rg[1])/rg_delta) + 1
+    std_zero = round(-ticks*rg[1]/rg_delta) + 1
+    std_fit_interval_atost = round(ticks*(x$ci - rg[1])/rg_delta) + 1
+    std_fit_interval_center_atost = round(ticks*(sum(x$ci)/2 - rg[1])/rg_delta) + 1
+    std_fit_interval_tost = round(ticks*(result_tost$ci - rg[1])/rg_delta) + 1
+    std_fit_interval_center_tost = round(ticks*(sum(result_tost$ci)/2 - rg[1])/rg_delta) + 1
 
+    cat("Equiv. Region:  ")
 
+    for (i in 1:(ticks+1)){
+      if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+        if (i == std_be_interval[1]){
+          cat(("|-"))
+        }else{
+          if (i ==  std_be_interval[2]){
+            cat(("-|"))
+          }else{
+            if (i == std_zero){
+              cat(("-0-"))
+            }else{
+              cat(("-"))
+            }
+          }
+        }
+      }else{
+        cat(" ")
+      }
+    }
+
+    cat("\n")
+    cat("TOST:           ")
+
+    for (i in 1:(ticks+1)){
+      if (i >= std_fit_interval_tost[1] && i <= std_fit_interval_tost[2]){
+        if (i == std_fit_interval_tost[1]){
+          if (i > std_be_interval[1] && i < std_be_interval[2]){
+            cat(col_green("(-"))
+          }else{
+            if (lower_be_tost){
+              cat(col_green("(-"))
+            }else{
+              cat(col_red("(-"))
+            }
+          }
+
+        }else{
+          if (i ==  std_fit_interval_tost[2]){
+            if (i > std_be_interval[1] && i < std_be_interval[2]){
+              cat(col_green("-)"))
+            }else{
+              if (upper_be_tost){
+                cat(col_green("-)"))
+              }else{
+                cat(col_red("-)"))
+              }
+            }
+
+          }else{
+            if (i == std_fit_interval_center_tost){
+              if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+                cat(col_green("-x-"))
+              }else{
+                cat(col_red("-x-"))
+              }
+            }else{
+              if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+                cat(col_green("-"))
+              }else{
+                cat(col_red("-"))
+              }
+            }
+          }
+        }
+      }else{
+        cat(" ")
+      }
+    }
+
+    cat("\n")
+
+    if (x$method == "alpha-TOST"){
+      cat("alpha-TOST:     ")
+    }else{
+      cat("x-TOST:         ")
+    }
+
+    for (i in 1:(ticks+1)){
+      if (i >= std_fit_interval_atost[1] && i <= std_fit_interval_atost[2]){
+        if (i == std_fit_interval_atost[1]){
+          if (i > std_be_interval[1] && i < std_be_interval[2]){
+            cat(col_green("(-"))
+          }else{
+            if (lower_be_atost){
+              cat(col_green("(-"))
+            }else{
+              cat(col_red("(-"))
+            }
+          }
+        }else{
+          if (i ==  std_fit_interval_atost[2]){
+            if (i > std_be_interval[1] && i < std_be_interval[2]){
+              cat(col_green("-)"))
+            }else{
+              if (upper_be_atost){
+                cat(col_green("-)"))
+              }else{
+                cat(col_red("-)"))
+              }
+            }
+          }else{
+            if (i == std_fit_interval_center_atost){
+              if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+                cat(col_green("-x-"))
+              }else{
+                cat(col_red("-x-"))
+              }
+            }else{
+              if (i >= std_be_interval[1] && i <= std_be_interval[2]){
+                cat(col_green("-"))
+              }else{
+                cat(col_red("-"))
+              }
+            }
+          }
+        }
+      }else{
+        cat(" ")
+      }
+    }
+    cat("\n")
+    cat("\n")
+    cat("                 CI - low      ")
+    cat("CI - high")
+    cat("\n")
+
+    cat("TOST:            ")
+    cat(format(round(result_tost$ci[1], rn), nsmall = rn))
+    cat("       ")
+    cat(format(round(result_tost$ci[2], rn), nsmall = rn))
+    cat("\n")
+
+    if (x$method == "alpha-TOST"){
+      cat("alpha-TOST:      ")
+    }else{
+      cat("x-TOST:          ")
+    }
+
+    cat(format(round(x$ci[1], rn), nsmall = rn))
+    cat("       ")
+    cat(format(round(x$ci[2], rn), nsmall = rn))
+    cat("\n")
+
+    cat("\n")
+    cat("Equiv. lim. = +/- ")
+    cat(format(round(x$delta, rn), nsmall = rn))
+    cat("\n")
+  }
+}
 
 
 
