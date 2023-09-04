@@ -3,14 +3,16 @@
 
 # `cTOST` Overview
 
-This repository holds the `cTOST` R package. This package contains a
-function of the same name, `cTOST`, that provides an assessment of
-equivalence in the univariate framework. This assessment is based on the
-state-of-the-art Two One-Sided Tests (TOST), and a corrective procedure
-applied to the TOST in order to ensure the preservation of the Type I
-error rate at the desired significance level and a uniform increase in
-power. More details can be found in Boulaguiem et al. (2023) that you
-can access via this
+This repository holds the `cTOST` R package. This package contains the
+function `tost` which provides an assessment of equivalence in the
+univariate framework based on the state-of-the-art Two One-Sided Tests
+(TOST). In addition, the package contains the functions `atost` and
+`dtost`, two corrective procedures applied to the TOST in the univariate
+framework in order to ensure the preservation of the Type I error rate
+at the desired nominal level and a uniform increase in power. These two
+functions output an assessment of equivalence in the univariate
+framework after their respective corrections is applied. More details
+can be found in Boulaguiem et al. (2023) that you can access via this
 [link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3).
 
 # Install Instructions
@@ -34,21 +36,27 @@ devtools::install_github("cTOST")
 
 # Equivalence Assessment
 
-In order the demonstrate the use of the function `cTOST`, we will use it
-on a dataset included in the package. The dataset was obtained using the
-cutaneous bioequivalence method detailed in Quartier et al. (2019) and
-was provided by the same authors. It contains 17 pairs of comparable
-porcine skin samples on which measurements of econazole nitrate
-deposition (an antifungal medication used to treat skin infections) were
-collected using two (supposedly) bioequivalent products. These
-measurements were then considered on the logarithmic scale and saved as
-an RData file called `skin`.
+## Skin dataset
+
+In order the demonstrate the use of the functions described above, we
+will use it on a dataset included in the package. The dataset was
+obtained using the cutaneous bioequivalence method detailed in Quartier
+et al. (2019) and was provided by the same authors. It contains 17 pairs
+of comparable porcine skin samples on which measurements of econazole
+nitrate deposition (an antifungal medication used to treat skin
+infections) were collected using two (supposedly) bioequivalent
+products. These measurements were then considered on the logarithmic
+scale and saved as an RData file called `skin`.
 
 After installing the package, you can simply print the dataset by
 running `skin` on your console (the dataset has been lazy loaded into
 the package).
 
 ``` r
+library(cTOST)
+#> Loading required package: PowerTOST
+#> Loading required package: cli
+# data(skin) # not necessary to run this line as the dataset is lazy loaded in the package
 head(skin)
 #>       Reference  Generic
 #> Obs.1  5.739053 5.813981
@@ -80,66 +88,99 @@ axis(2, at = log(c(250,500,1000,2000,4000)), c(250,500,1000,2000,4000), las=2)
 axis(2, at = mean(c(min(unlist(skin)),log(4000))), expression(paste("ECZ deposition (ng/cm"^2*")")),padj=-4.5, tick = FALSE)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+<img src="README_files/figure-gfm/unnamed-chunk-5-1.png" width="100%" />
 
 Let us now extract from the dataset the components needed to run the
-`cTOST` function. We would need the difference of means between the two
-groups, the number of degrees of freedom, and the standard error:
+functions `atost` and `dtost` We would need the difference of means
+between the two groups, the number of degrees of freedom, and the
+standard error:
 
 ``` r
 # Difference in means between the two groups
-theta <- diff(apply(skin,2,mean)) 
+theta_hat <- diff(apply(skin,2,mean)) 
 
 # Number of degrees of freedom
 nu <- nrow(skin)-1 
 
 # Standard error
-sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu) 
+sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
 ```
 
 Considering a significance level of 5% and an equivalence limit at
-delta = *l**o**g*(1.25), the cTOST function is used as follows:
+delta = *l**o**g*(1.25), the `tost`, `atost` and `dtost` functions are
+used as follows:
+
+## Standard TOST
 
 ``` r
-# Set the significance level 
-alpha <- 0.05
-
-# Set the equivalence limits
-delta <- log(1.25)
-
-# Compute the TOST and aTOST
-out <- cTOST(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu, delta=delta)
-
-# Print the results
-print(out)
-#> Procedure     CI - low.      CI - up.   Equiv. lim.       Equiv.
-#>      TOST         -0.21          0.26          0.22
-#> ✖
-#>     aTOST         -0.18          0.22          0.22
-#> ✔
-#> Estimate : 0.023; Std. error : 0.134; Signif. level : 0.05; Corrected level :
-#> 0.079
-#> Signif. codes: ✖ Not Equivalent; ✔ Equivalent
+res_tost = tost(theta = theta_hat, sigma = sig_hat, nu = nu,
+              alpha = 0.05, delta = log(1.25))
+res_tost
 ```
+
+<img src="README_files/figure-gfm//unnamed-chunk-8.svg" width="100%" />
+
+## *α* − *T**O**S**T*
+
+``` r
+res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
+              alpha = 0.05, delta = log(1.25))
+res_atost
+```
+
+<img src="README_files/figure-gfm//unnamed-chunk-10.svg" width="100%" />
+
+``` r
+compare_to_tost(res_atost)
+```
+
+<img src="README_files/figure-gfm//unnamed-chunk-12.svg" width="100%" />
+
+## *δ* − *T**O**S**T*
+
+``` r
+res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu,
+              alpha = 0.05, delta = log(1.25))
+res_dtost
+```
+
+<img src="README_files/figure-gfm//unnamed-chunk-14.svg" width="100%" />
+
+``` r
+compare_to_tost(res_dtost)
+```
+
+<img src="README_files/figure-gfm//unnamed-chunk-16.svg" width="100%" />
+
+## Interval Inclusion Principal with the *α*-TOST
 
 To visually assess equivalence with the interval inclusion principal, we
 reproduce Figure 2 of Boulaguiem et al. (2023) with the following code:
 
 ``` r
+res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
+              alpha = 0.05, delta = log(1.25))
+```
+
+``` r
+# Nominal level and zquivalence bounds
+alpha = 0.05
+delta = log(1.25)
+
 # Empty plot
 plot(NA, axes = F, xlim = c(-0.25, 0.25), ylim = c(0.5, 2.5),
      xlab = " ", ylab = " ")
 
 # Corrected level used by aTOST
-alpha_star = out$alpha_star
+alpha_star = res_atost$corrected_alpha
 
 # TOST's CI upper and lower bound
-a1 = theta + sigma_nu*qt(alpha, df = nu)
-a2 = theta - sigma_nu*qt(alpha, df = nu)
+a1 = theta_hat + sig_hat*qt(alpha, df = nu)
+a2 = theta_hat - sig_hat*qt(alpha, df = nu)
 
 # aTOST's CI upper and lower bound 
-b1 = theta + sigma_nu*qt(alpha_star, df = nu)
-b2 = theta - sigma_nu*qt(alpha_star, df = nu)
+b1 = theta_hat + sig_hat*qt(alpha_star, df = nu)
+b2 = theta_hat - sig_hat*qt(alpha_star, df = nu)
 
 # Set the colors and their transparent counterpart
 cols=c("coral","palegreen2")
@@ -162,8 +203,8 @@ polygon(c(b1, b2, b2, b1), c(1-d, 1-d, 1+d, 1+d), border = NA,
         col = t.cols[2])
 
 # Plotting the difference in means
-points(theta, 2, col = cols[1], pch = 16, cex = 2.5)
-points(theta, 1, col = cols[2], pch = 16, cex = 2.5)
+points(theta_hat, 2, col = cols[1], pch = 16, cex = 2.5)
+points(theta_hat, 1, col = cols[2], pch = 16, cex = 2.5)
 
 # Adding text for readability
 text(0.15, 2 + 1.75*d, "TOST CI")
@@ -178,7 +219,7 @@ axis(1, at = c(-0.3, -log(1.25), -0.1, 0, 0.1, log(1.25), 0.3),
 mtext(expression(theta), side = 1, line = 2.35, cex = 1.4)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+<img src="README_files/figure-gfm/unnamed-chunk-18-1.png" width="100%" />
 
 # References
 

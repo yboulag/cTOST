@@ -4,9 +4,10 @@ editor_options:
   markdown:
     wrap: sentence
 bibliography: references.bib
+always_allow_html: yes
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please edit this file -->
 
 ```{r, include = FALSE, cache = FALSE}
 knitr::opts_chunk$set(
@@ -186,7 +187,7 @@ res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
 ```
 
 ```{r, eval=TRUE}
-# Nominal level and equivalence bounds
+# Nominal level and zquivalence bounds
 alpha = 0.05
 delta = log(1.25)
 
