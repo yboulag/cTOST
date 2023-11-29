@@ -31,7 +31,7 @@ install.packages("devtools")
 The package is then installed with the following command:
 
 ``` r
-devtools::install_github("cTOST")
+devtools::install_github("yboulag/cTOST")
 ```
 
 # Equivalence Assessment
