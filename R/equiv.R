@@ -103,7 +103,6 @@ BE = function(ci, delta, ...){
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
 #' @return The function returns an object of class `matrix`.
-#' @examples
 #' theta <- diff(apply(skin,2,mean))
 #' nu <- nrow(skin)-1
 #' sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu)
@@ -134,19 +133,6 @@ cTOST = function(alpha, theta, sigma_nu, nu, delta, ...){
              aTOST_decision=BE_cTOST)
   class(out) = "cTOST"
   invisible(out)
-}
-
-#' @title Extract relevant info to format
-#' @author Younes Boulaguiem, Stéphane Guerrier, etc.
-#'
-coef.cTOST = function(x, ...){
-  method = c("TOST","aTOST")
-  decision = c(x$TOST_decision,x$aTOST_decision)
-  ci = rbind(x$TOST_ci,x$aTOST_ci)
-  df = cbind(ci, rep(x$delta, length(method)), decision)
-  rownames(df) = method
-  colnames(df) = c("CI - low.", "CI - up.", "Equiv. lim.", "Equiv.")
-  df
 }
 
 #' @title Two One-Sided Test (TOST) for Equivalence Testing
@@ -386,8 +372,10 @@ obj_fun_delta_hat = function(delta_star, sigma, alpha, delta, nu){
 
 #' Print Results of Equivalence Assessment
 #'
-#' @param x     An object of class "TOST", either the ouput of the functions `tost`, `atost` or `dtost`.
-#'
+#' @param x      An object of class "TOST", either the ouput of the functions `tost`, `atost` or `dtost`.
+#' @param ticks  Number of ticks to print the confidence interval in the console.
+#' @param rn     Number of digits to consider when printing the results.
+#' @param ...    Further arguments to be passed to or from methods.
 #' @importFrom cli cli_text col_green col_red
 #'
 #' @rdname print.tost

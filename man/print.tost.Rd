@@ -8,6 +8,12 @@
 }
 \arguments{
 \item{x}{An object of class "TOST", either the ouput of the functions `tost`, `atost` or `dtost`.}
+
+\item{ticks}{Number of ticks to print the confidence interval in the console.}
+
+\item{rn}{Number of digits to consider when printing the results.}
+
+\item{...}{Further arguments to be passed to or from methods.}
 }
 \description{
 Print Results of Equivalence Assessment

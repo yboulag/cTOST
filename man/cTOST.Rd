@@ -21,20 +21,18 @@ cTOST(alpha, theta, sigma_nu, nu, delta, ...)
 }
 \value{
 The function returns an object of class `matrix`.
-}
-\description{
-The function returns many useful components in the assessment of bioequivalence
-in the univariate frameowrk for each of the TOST and alphaTOST, namely, the estimated parameter,
-the estimated standard error, confidence intervals for both methods, the equivalence limit,
-the original significance level and the corrected one.
-}
-\examples{
 theta <- diff(apply(skin,2,mean))
 nu <- nrow(skin)-1
 sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu)
 alpha <- 0.05
 delta <- log(1.25)
 cTOST(alpha, theta, sigma_nu, nu, delta)
+}
+\description{
+The function returns many useful components in the assessment of bioequivalence
+in the univariate frameowrk for each of the TOST and alphaTOST, namely, the estimated parameter,
+the estimated standard error, confidence intervals for both methods, the equivalence limit,
+the original significance level and the corrected one.
 }
 \author{
 Younes Boulaguiem, Stéphane Guerrier, etc.
