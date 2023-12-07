@@ -24,6 +24,10 @@ asciicast::init_knitr_engine(
   echo_input = FALSE)
 ```
  
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/yboulag/cTOST/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yboulag/cTOST/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 # `cTOST` Overview
 
 This repository holds the `cTOST` R package. This package contains the function `tost` which provides an assessment of equivalence in the univariate framework based on the state-of-the-art Two One-Sided Tests (TOST). In addition, the package contains the functions `atost` and `dtost`, two corrective procedures applied to the TOST in the univariate framework in order to ensure the preservation of the Type I error rate at the desired nominal level and a uniform increase in power. These two functions output an assessment of equivalence in the univariate framework after their respective corrections is applied. More details can be found in @boulaguiem2023finite that you can access via this [link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3).
@@ -79,10 +83,10 @@ Let us now extract from the dataset the components needed to run the functions `
 
 ```{r, eval=TRUE}
 # Difference in means between the two groups
-theta_hat <- diff(apply(skin,2,mean)) 
+theta_hat = diff(apply(skin,2,mean)) 
 
 # Number of degrees of freedom
-nu <- nrow(skin)-1 
+nu = nrow(skin)-1 
 
 # Standard error
 sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
@@ -93,8 +97,7 @@ Considering a significance level of $5\%$ and an equivalence limit at $\text{del
 ## Standard TOST
 
 ```{r, eval = F}
-res_tost = tost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_tost = tost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 res_tost
 ```
 
@@ -104,16 +107,14 @@ data(skin)
 theta_hat = diff(apply(skin,2,mean))
 nu = nrow(skin) - 1
 sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
-res_tost = tost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_tost = tost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 res_tost
 ```
 
 ## $\alpha$-TOST
 
 ```{r, eval = F}
-res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 res_atost
 ```
 
@@ -123,8 +124,7 @@ data(skin)
 theta_hat = diff(apply(skin,2,mean))
 nu = nrow(skin) - 1
 sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
-res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 res_atost
 ```
 
@@ -138,16 +138,14 @@ data(skin)
 theta_hat = diff(apply(skin,2,mean))
 nu = nrow(skin) - 1
 sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
-res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 compare_to_tost(res_atost)
 ```
 
 ## $\delta$-TOST
 
 ```{r, eval = F}
-res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 res_dtost
 ```
 
@@ -157,8 +155,7 @@ data(skin)
 theta_hat = diff(apply(skin,2,mean))
 nu = nrow(skin) - 1
 sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
-res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 res_dtost
 ```
 
@@ -172,8 +169,7 @@ data(skin)
 theta_hat = diff(apply(skin,2,mean))
 nu = nrow(skin) - 1
 sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
-res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 compare_to_tost(res_dtost)
 ```
 
@@ -182,8 +178,7 @@ compare_to_tost(res_dtost)
 To visually assess equivalence with the interval inclusion principal, we reproduce Figure 2 of @boulaguiem2023finite with the following code: 
 
 ```{r include=FALSE}
-res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 ```
 
 ```{r, eval=TRUE}
@@ -192,8 +187,7 @@ alpha = 0.05
 delta = log(1.25)
 
 # Empty plot
-plot(NA, axes = F, xlim = c(-0.25, 0.25), ylim = c(0.5, 2.5),
-     xlab = " ", ylab = " ")
+plot(NA, axes = F, xlim = c(-0.25, 0.25), ylim = c(0.5, 2.5), xlab = " ", ylab = " ")
 
 # Corrected level used by aTOST
 alpha_star = res_atost$corrected_alpha

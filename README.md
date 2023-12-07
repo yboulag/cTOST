@@ -41,10 +41,10 @@ devtools::install_github("yboulag/cTOST")
 In order the demonstrate the use of the functions described above, we
 will use it on a dataset included in the package. The dataset was
 obtained using the cutaneous bioequivalence method detailed in Quartier
-et al. (2019) and was provided by the same authors. It contains 17 pairs
-of comparable porcine skin samples on which measurements of econazole
-nitrate deposition (an antifungal medication used to treat skin
-infections) were collected using two (supposedly) bioequivalent
+et al. (2019) and was provided by the same authors. It contains $17$
+pairs of comparable porcine skin samples on which measurements of
+econazole nitrate deposition (an antifungal medication used to treat
+skin infections) were collected using two (supposedly) bioequivalent
 products. These measurements were then considered on the logarithmic
 scale and saved as an RData file called `skin`.
 
@@ -56,6 +56,7 @@ the package).
 library(cTOST)
 #> Loading required package: PowerTOST
 #> Loading required package: cli
+#> Loading required package: knitr
 # data(skin) # not necessary to run this line as the dataset is lazy loaded in the package
 head(skin)
 #>       Reference  Generic
@@ -97,34 +98,32 @@ standard error:
 
 ``` r
 # Difference in means between the two groups
-theta_hat <- diff(apply(skin,2,mean)) 
+theta_hat = diff(apply(skin,2,mean)) 
 
 # Number of degrees of freedom
-nu <- nrow(skin)-1 
+nu = nrow(skin)-1 
 
 # Standard error
 sig_hat = sd(apply(skin,1,diff))/sqrt(nu)
 ```
 
-Considering a significance level of 5% and an equivalence limit at
-delta = *l**o**g*(1.25), the `tost`, `atost` and `dtost` functions are
+Considering a significance level of $5\%$ and an equivalence limit at
+$\text{delta}=log(1.25)$, the `tost`, `atost` and `dtost` functions are
 used as follows:
 
 ## Standard TOST
 
 ``` r
-res_tost = tost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_tost = tost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 res_tost
 ```
 
 <img src="README_files/figure-gfm//unnamed-chunk-8.svg" width="100%" />
 
-## *α*-TOST
+## $\alpha$-TOST
 
 ``` r
-res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_atost = atost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 res_atost
 ```
 
@@ -136,11 +135,10 @@ compare_to_tost(res_atost)
 
 <img src="README_files/figure-gfm//unnamed-chunk-12.svg" width="100%" />
 
-## *δ*-TOST
+## $\delta$-TOST
 
 ``` r
-res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu,
-              alpha = 0.05, delta = log(1.25))
+res_dtost = dtost(theta = theta_hat, sigma = sig_hat, nu = nu, alpha = 0.05, delta = log(1.25))
 res_dtost
 ```
 
@@ -152,7 +150,7 @@ compare_to_tost(res_dtost)
 
 <img src="README_files/figure-gfm//unnamed-chunk-16.svg" width="100%" />
 
-## Interval Inclusion Principal with the *α*-TOST
+## Interval Inclusion Principal with the $\alpha$-TOST
 
 To visually assess equivalence with the interval inclusion principal, we
 reproduce Figure 2 of Boulaguiem et al. (2023) with the following code:
@@ -163,8 +161,7 @@ alpha = 0.05
 delta = log(1.25)
 
 # Empty plot
-plot(NA, axes = F, xlim = c(-0.25, 0.25), ylim = c(0.5, 2.5),
-     xlab = " ", ylab = " ")
+plot(NA, axes = F, xlim = c(-0.25, 0.25), ylim = c(0.5, 2.5), xlab = " ", ylab = " ")
 
 # Corrected level used by aTOST
 alpha_star = res_atost$corrected_alpha
