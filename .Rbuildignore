@@ -4,3 +4,6 @@
 ^README_files
 ^references.bib
 ^\.github$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
