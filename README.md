@@ -1,5 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit this file -->
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/yboulag/cTOST/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yboulag/cTOST/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
 
 # `cTOST` Overview
 
@@ -222,7 +226,7 @@ mtext(expression(theta), side = 1, line = 2.35, cex = 1.4)
 Boulaguiem, Younes, Julie Quartier, Maria Lapteva, Yogeshvar N Kalia,
 Maria-Pia Victoria-Feser, Stéphane Guerrier, and Dominique-Laurent
 Couturier. 2023. “Finite Sample Adjustments for Average Equivalence
-Testing.” *bioRxiv*, 2023–03.
+Testing.” *Statistics in Medicine, in Press*, 2023–03.
 
 </div>
 
