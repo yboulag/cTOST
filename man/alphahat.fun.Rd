@@ -20,3 +20,7 @@ alphahat.fun(sigma, nu, alpha, delta, tol = 1e-07)
 \description{
 This function applies the  alpha-TOST corrective procedure to obtain the corrected level.
 }
+\author{
+Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
+}
+\keyword{internal}

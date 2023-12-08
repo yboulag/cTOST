@@ -20,3 +20,4 @@ obj_fun_delta_hat(delta_star, sigma, alpha, delta, nu)
 \description{
 Objective Function of the delta-TOST Corrective Procedure
 }
+\keyword{internal}

@@ -18,3 +18,4 @@ deltahat.fun(sigma, alpha, delta, nu)
 \description{
 This function applies the  delta-TOST corrective procedure to obtain the corrected equivalence bounds
 }
+\keyword{internal}

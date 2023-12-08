@@ -4,13 +4,14 @@ ipowen4 <- function(...) {
 }
 
 #' @title Power function
-#' @author Younes Boulaguiem, Stéphane Guerrier, etc.
+#' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
 #' @param theta                 A \code{numeric} value corresponding to the estimated parameter of interest (such as a difference of means).
 #' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
+#' @keywords internal
 #' @return The function returns a \code{numeric} value that corresponds to a probability.
 power_TOST = function(alpha, theta, sigma_nu, nu, delta, ...){
   tval = qt(1 - alpha, df = nu)
@@ -25,12 +26,13 @@ power_TOST = function(alpha, theta, sigma_nu, nu, delta, ...){
 }
 
 #' @title The size
-#' @author Younes Boulaguiem, Stéphane Guerrier, etc.
+#' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
 #' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
+#' @keywords internal
 #' @return The function returns a \code{numeric} value that corresponds to a probability.
 size_TOST = function(alpha, sigma_nu, nu, delta, ...){
   power_TOST(alpha = alpha, theta = delta, sigma_nu = sigma_nu,
@@ -38,13 +40,14 @@ size_TOST = function(alpha, sigma_nu, nu, delta, ...){
 }
 
 #' @title Objective function to optimise
-#' @author Younes Boulaguiem, Stéphane Guerrier, etc.
+#' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param test                  A \code{numeric} value specifying the significance level to optimise.
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
 #' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
+#' @keywords internal
 #' @return The function returns a \code{numeric} value for the objective function.
 obj_fun_alpha_star = function(test, alpha, sigma_nu, nu, delta, ...){
   size = size_TOST(alpha = test, sigma_nu = sigma_nu, nu = nu, delta = delta)
@@ -52,12 +55,13 @@ obj_fun_alpha_star = function(test, alpha, sigma_nu, nu, delta, ...){
 }
 
 #' @title Get alpha star
-#' @author Younes Boulaguiem, Stéphane Guerrier, etc.
+#' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
 #' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
+#' @keywords internal
 #' @return The function returns a \code{numeric} value that corresponds to the solution of the optimisation.
 get_alpha_star = function(alpha, sigma_nu, nu, delta, ...){
   out = optimize(obj_fun_alpha_star, c(alpha, 0.5),
@@ -70,74 +74,19 @@ get_alpha_star = function(alpha, sigma_nu, nu, delta, ...){
 }
 
 #' @title Confidence Intervals
-#' @author Younes Boulaguiem, Stéphane Guerrier, etc.
+#' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
 #' @param theta                 A \code{numeric} value corresponding to the estimated parameter of interest (such as a difference of means).
 #' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param ...                   Additional parameters.
+#' @keywords internal
 #' @return The function returns a numerical \code{vector} with the lower and upper bound of the confidence intervals.
 ci = function(alpha, theta, sigma_nu, nu, ...){
   tval=qt(p=alpha,df=nu)
   lower <- theta+tval*sigma_nu
   upper <- theta-tval*sigma_nu
   cbind(lower,upper)
-}
-
-#' @title Assess Equivalence
-#' @author Younes Boulaguiem, Stéphane Guerrier, etc.
-#' @param ci                    A \code{vector} with the lower and upper bounds of the confidence interval.
-#' @param delta                   A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
-#' @param ...                   Additional parameters.
-#' @return The function returns a \code{numeric} value that corresponds to 0 is there is no equivalence, or 1 if there is equivalence.
-BE = function(ci, delta, ...){
-  return(prod((ci[1]>-delta)*(ci[2]<delta)))
-}
-
-
-#' @title Equivalence Assessment in the univariate framework for the TOST and the alpha-TOST
-#' @description The function returns many useful components in the assessment of bioequivalence
-#' in the univariate frameowrk for each of the TOST and alphaTOST, namely, the estimated parameter,
-#' the estimated standard error, confidence intervals for both methods, the equivalence limit,
-#' the original significance level and the corrected one.
-#' @author Younes Boulaguiem, Stéphane Guerrier, etc.
-#' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
-#' @param theta                 A \code{numeric} value corresponding to the estimated parameter of interest (such as a difference of means).
-#' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
-#' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
-#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
-#' @param ...                   Additional parameters.
-#' @return The function returns an object of class `matrix`.
-#' theta <- diff(apply(skin,2,mean))
-#' nu <- nrow(skin)-1
-#' sigma_nu <- sd(apply(skin,1,diff))/sqrt(nu)
-#' alpha <- 0.05
-#' delta <- log(1.25)
-#' cTOST(alpha, theta, sigma_nu, nu, delta)
-cTOST = function(alpha, theta, sigma_nu, nu, delta, ...){
-  alpha_star = get_alpha_star(alpha=alpha, sigma_nu=sigma_nu, nu=nu, delta=delta)
-  original_ci = ci(alpha=alpha, theta=theta, sigma_nu=sigma_nu, nu=nu)
-  corrected_ci = ci(alpha=alpha_star, theta=theta, sigma_nu=sigma_nu, nu=nu)
-  BE_TOST = BE(ci=original_ci, delta=delta)
-  BE_cTOST = BE(ci=corrected_ci, delta=delta)
-  # res = matrix(NA,nrow=2,ncol=7)
-  # colnames(res) = c("theta","sigma_nu","Level","CI - low.","CI - up.","delta","Decision")
-  # rownames(res) = c("TOST","cTOST")
-  # res[1,] = c(theta,sigma_nu,alpha,original_ci[1],original_ci[2],delta,BE_TOST)
-  # res[2,] = c(theta,sigma_nu,alpha_star,corrected_ci[1],corrected_ci[2],delta,BE_cTOST)
-  # out = res
-  out = list(theta=theta,
-             sigma_nu=sigma_nu,
-             nu=nu,
-             delta=delta,
-             alpha=alpha,
-             alpha_star=alpha_star,
-             TOST_ci=original_ci,
-             TOST_decision=BE_TOST,
-             aTOST_ci=corrected_ci,
-             aTOST_decision=BE_cTOST)
-  class(out) = "cTOST"
-  invisible(out)
 }
 
 #' @title Two One-Sided Test (TOST) for Equivalence Testing
@@ -149,6 +98,8 @@ cTOST = function(alpha, theta, sigma_nu, nu, delta, ...){
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param alpha                 A \code{numeric} value specifying the significance level.
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#'
+#' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #'
 #' @return A list containing the TOST decision, confidence interval (CI), difference of means, standard error,
 #' degrees of freedom, significance level, and the method used ("TOST").
@@ -183,6 +134,8 @@ tost = function(theta, sigma, nu, alpha, delta){
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param alpha                 A \code{numeric} value specifying the significance level.
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#'
+#' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #'
 #' @return A list containing the alpha-TOST decision, the corrected confidence interval (CI), estimated mean, estimated standard error,
 #' degrees of freedom, nominal level, corrected level, equivalence bounds, and the method used ("alpha-TOST").
@@ -221,6 +174,8 @@ atost = function(theta, sigma, nu, alpha, delta){
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
 #' @param tol                   A \code{numeric} value corresponding to the tolerance to be applied during the optimization (see `optim`)
 #'
+#' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
+#' @keywords internal
 #' @importFrom stats qt
 alphahat.fun = function(sigma, nu, alpha, delta, tol=1e-7){
   K = 10000
@@ -251,6 +206,8 @@ alphahat.fun = function(sigma, nu, alpha, delta, tol=1e-7){
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param alpha                 A \code{numeric} value specifying the significance level.
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#'
+#' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #'
 #' @return A list containing the delta-TOST decision, the corrected confidence interval (CI), estimated mean, estimated standard error,
 #' degrees of freedom, nominal level, equivalence bounds, corrected equivalence bounds, and the method used ("delta-TOST").
@@ -288,6 +245,7 @@ dtost = function(theta, sigma, nu, alpha, delta){
 #' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #'
+#' @keywords internal
 #' @importFrom stats optimize
 #'
 deltahat.fun = function(sigma, alpha, delta, nu){
@@ -366,6 +324,7 @@ deltahat.fun = function(sigma, alpha, delta, nu){
 #' @param alpha The nominal level for the test.
 #' @param delta The equivalence bound used for the TOST decision.
 #' @param nu The degrees of freedom parameter.
+#' @keywords internal
 #'
 obj_fun_delta_hat = function(delta_star, sigma, alpha, delta, nu){
   #ipowen4    = utils::getFromNamespace("ipowen4", "OwenQ")

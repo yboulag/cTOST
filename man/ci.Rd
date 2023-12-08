@@ -24,5 +24,6 @@ The function returns a numerical \code{vector} with the lower and upper bound of
 Confidence Intervals
 }
 \author{
-Younes Boulaguiem, Stéphane Guerrier, etc.
+Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 }
+\keyword{internal}

@@ -24,5 +24,6 @@ The function returns a \code{numeric} value that corresponds to the solution of 
 Get alpha star
 }
 \author{
-Younes Boulaguiem, Stéphane Guerrier, etc.
+Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 }
+\keyword{internal}

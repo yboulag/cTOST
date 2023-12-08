@@ -34,3 +34,6 @@ tost(theta = theta_hat, sigma = sig_hat, nu = nu,
      alpha = 0.05, delta = log(1.25))
 
 }
+\author{
+Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
+}

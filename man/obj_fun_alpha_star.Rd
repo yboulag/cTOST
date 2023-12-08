@@ -26,5 +26,6 @@ The function returns a \code{numeric} value for the objective function.
 Objective function to optimise
 }
 \author{
-Younes Boulaguiem, Stéphane Guerrier, etc.
+Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 }
+\keyword{internal}

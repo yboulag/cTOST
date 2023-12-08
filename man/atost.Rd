@@ -36,3 +36,6 @@ res_atost
 compare_to_tost(res_atost)
 
 }
+\author{
+Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
+}
