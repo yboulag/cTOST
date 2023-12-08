@@ -1,4 +1,6 @@
-
+#' @title ipowen4 function from the OwenQ package
+#' @author Stéphane Laurent
+#' @keywords internal
 ipowen4 <- function(...) {
   asNamespace("OwenQ")$ipowen4(...)
 }
