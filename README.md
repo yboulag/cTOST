@@ -46,7 +46,7 @@ is not the case, please visit this
 
 ``` r
 @Manual{boulaguiem2023ctost,
-  title = {{cTOST}: Finite Sample Correction of The TOST in The Univariate Framework},
+  title = {cTOST: Finite Sample Correction of The TOST in The Univariate Framework},
   author = {Younes Boulaguiem and Stéphane Guerrier and Dominique-Laurent Couturier},
   year = {2023},
   note = {R package version 1.0.0},
