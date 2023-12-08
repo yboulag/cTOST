@@ -1,3 +1,8 @@
+
+ipowen4 <- function(...) {
+  asNamespace("OwenQ")$ipowen4(...)
+}
+
 #' @title Power function
 #' @author Younes Boulaguiem, Stéphane Guerrier, etc.
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
@@ -225,7 +230,7 @@ alphahat.fun = function(sigma, nu, alpha, delta, tol=1e-7){
     delta1     = (2*delta)/sigma
     delta2     = 0
     R          = (delta*sqrt(nu))/(tval*sigma)
-    ipowen4    =  utils::getFromNamespace("ipowen4", "OwenQ")
+    #ipowen4    =  utils::getFromNamespace("ipowen4", "OwenQ")
     # NOTE: OwenQ:::powen4 unreliable
     #       OwenQ:::ipowen4 gets very close results to PowerTOST but faster
     omega      = ipowen4(nu, tval, -tval, delta1, delta2)
@@ -286,7 +291,7 @@ dtost = function(theta, sigma, nu, alpha, delta){
 #' @importFrom stats optimize
 #'
 deltahat.fun = function(sigma, alpha, delta, nu){
-  ipowen4 = utils::getFromNamespace("ipowen4", "OwenQ")
+  #ipowen4 = utils::getFromNamespace("ipowen4", "OwenQ")
   # sigma = dfw$sigma.hat[546]; delta=log(1.25);tol=1e-8
 
   # Check estimated Type I error, i.e. |estimated size - alpha|
@@ -363,7 +368,7 @@ deltahat.fun = function(sigma, alpha, delta, nu){
 #' @param nu The degrees of freedom parameter.
 #'
 obj_fun_delta_hat = function(delta_star, sigma, alpha, delta, nu){
-  ipowen4    = utils::getFromNamespace("ipowen4", "OwenQ")
+  #ipowen4    = utils::getFromNamespace("ipowen4", "OwenQ")
   # delta_star = delta
   tval       = qt(1 - alpha, df = nu)
   delta1     = (delta + delta_star)/sigma

@@ -12,7 +12,6 @@ Maintainer: Younes Boulaguiem <younes.boulaguiem@gmail.com>
 Description:  A system containing easy-to-use tools to compute the bioequivalence assessment in the univariate framework using the methods proposed in Boulaguiem et al. (2023) <bioRxiv:532179>.
 Depends:
     PowerTOST,
-    OwenQ,
     cli,
     knitr,
     R (>= 4.0)
