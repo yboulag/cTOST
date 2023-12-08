@@ -1,6 +1,6 @@
 Package: cTOST
 Type: Package
-Title: Finite Sample Correction of The TOST in The Univariate Framework
+Title: Finite Sample Correction of the TOST in the Univariate Framework
 Version: 1.0.0
 Date: 2023-12-07
 Authors@R: c(
@@ -10,7 +10,7 @@ Authors@R: c(
     person("Stéphane", "Laurent", role = "cph")
     )
 Maintainer: Younes Boulaguiem <younes.boulaguiem@gmail.com>
-Description:  A system containing easy-to-use tools to compute the bioequivalence assessment in the univariate framework using the methods proposed in Boulaguiem et al. (2023) <bioRxiv:532179>.
+Description:  A system containing easy-to-use tools to compute the bioequivalence assessment in the univariate framework using the methods proposed in Boulaguiem et al. (2023) <doi:10.1101/2023.03.11.532179>.
 Depends:
     PowerTOST,
     cli,
