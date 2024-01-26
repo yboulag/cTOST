@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-```{r, echo=FALSE}
+```{r, echo=FALSE, message=FALSE}
 library(cTOST)
 ```
 

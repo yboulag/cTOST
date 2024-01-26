@@ -16,8 +16,8 @@ framework in order to ensure the preservation of the Type I error rate
 at the desired nominal level and a uniform increase in power. These two
 functions output an assessment of equivalence in the univariate
 framework after their respective corrections is applied. More details
-can be found in Boulaguiem et al. (2023) that you can access via this
-[link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3).
+can be found in Boulaguiem et al. (2023) that you can access via this
+[link](https://onlinelibrary.wiley.com/doi/10.1002/sim.9993).
 
 # Install Instructions
 
@@ -64,15 +64,8 @@ a synopsis of the restrictions placed upon the code.
 
 # References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
-
-<div id="ref-boulaguiem2023finite" class="csl-entry">
-
 Boulaguiem, Younes, Julie Quartier, Maria Lapteva, Yogeshvar N Kalia,
 Maria-Pia Victoria-Feser, Stéphane Guerrier, and Dominique-Laurent
 Couturier. 2023. “Finite Sample Adjustments for Average Equivalence
-Testing.” *Statistics in Medicine, in Press*, 2023–03.
-
-</div>
-
-</div>
+Testing”, *Statistics in Medicine*,
+<https://onlinelibrary.wiley.com/doi/10.1002/sim.9993>.
