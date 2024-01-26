@@ -63,7 +63,7 @@ The license this source code is released under is the GNU AFFERO GENERAL PUBLIC 
 
 # References
 
-
+Boulaguiem, Younes, Julie Quartier, Maria Lapteva, Yogeshvar N Kalia, Maria-Pia Victoria-Feser, Stéphane Guerrier, and Dominique-Laurent Couturier. 2023. "Finite Sample Adjustments for Average Equivalence Testing." Statistics in Medicine [https://onlinelibrary.wiley.com/doi/10.1002/sim.9993](https://onlinelibrary.wiley.com/doi/10.1002/sim.9993)
 
 
 

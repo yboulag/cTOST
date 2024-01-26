@@ -9,6 +9,9 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+```{r, echo=FALSE}
+library(cTOST)
+```
 
 # Introduction 
 
@@ -18,9 +21,9 @@ Equivalence testing has first appeared in the field of pharmacokinetics @Metzler
 
 More formally, the hypotheses of interest are defined as
 
-\begin{equation}
+\begin{equation*}
     H_0: \; \theta \not\in \Theta_1 \quad vs. \quad H_1: \; \theta \in \Theta_1 := (\theta_L, \, \theta_U),
-\end{equation}
+\end{equation*}
 
 
 where $\Theta_1=(\theta_L,\theta_U)$ denotes the range of equivalence whose limits are known constants, and are usually symmetrical so we define $c:=\theta_U=-\theta_L$.
