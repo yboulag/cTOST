@@ -19,6 +19,8 @@ Depends:
 Imports:
     OwenQ,
     rmarkdown
+Suggests:
+    asciicast
 License: AGPL-3
 Encoding: UTF-8
 LazyData: true
