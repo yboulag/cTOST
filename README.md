@@ -17,7 +17,7 @@ at the desired nominal level and a uniform increase in power. These two
 functions output an assessment of equivalence in the univariate
 framework after their respective corrections is applied. More details
 can be found in Boulaguiem et al. (2023) that you can access via this
-[link](https://onlinelibrary.wiley.com/doi/10.1002/sim.9993).
+[link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3).
 
 # Install Instructions
 
@@ -67,5 +67,4 @@ a synopsis of the restrictions placed upon the code.
 Boulaguiem, Younes, Julie Quartier, Maria Lapteva, Yogeshvar N Kalia,
 Maria-Pia Victoria-Feser, Stéphane Guerrier, and Dominique-Laurent
 Couturier. 2023. “Finite Sample Adjustments for Average Equivalence
-Testing”, *Statistics in Medicine*,
-<https://onlinelibrary.wiley.com/doi/10.1002/sim.9993>.
+Testing”, <https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3>.
