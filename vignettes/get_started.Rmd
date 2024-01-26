@@ -38,7 +38,7 @@ where $\theta$ is the parameter of interest, $\sigma_{\nu}$ is the standard erro
 The TOST is based on two test statistics
 
 \begin{equation*}
-T_L := \frac{\widehat{\theta}+c}{\widehat{\sigma}_{\nu}}\sim t_\nu\left(\frac{\theta+c}{\sigma_\nu}\right), \quad\text{and}\quad T_U := \frac{\widehat{\theta}-c}{\widehat{\sigma}_{\nu}}\sim t_\nu\left(\frac{\theta-c}{{\sigma}_\nu}\right).
+T_L := \frac{\widehat{\theta}+c}{\widehat{\sigma}_{\nu}}\sim t_\nu\left(\frac{\theta+c}{\sigma_\nu}\right), \quad\text{and}\quad T_U := \frac{\widehat{\theta}-c}{\widehat{\sigma}_{\nu}}\sim t_\nu\left(\frac{\theta-c}{\sigma_\nu}\right).
 \end{equation*}
 $\text{H}_{0}$ is rejected in favor of equivalence if both tests simultaneously reject their marginal null hypotheses, i.e.,
 
@@ -61,7 +61,7 @@ Given $\alpha$, $\theta$, $\sigma_{\nu}$, $\nu$ and $c$, the power function of t
         \phantom{=}&\times f_W ( \widehat\sigma_\nu \lvert \sigma_\nu,\nu)d\widehat\sigma_\nu.
     \end{aligned}
 \end{equation*}
-Noting that the vector $(T_L,T_U)$ has a bivariate non-central $t$-distribution with non-centrality parameters $\frac{\theta-c}{{\sigma}_\nu}$ and $\frac{\theta+c}{{\sigma}_\nu}$ respectively, we can express the power function in terms of Owen's $Q$-function @Owen65:
+Noting that the vector $(T_L,T_U)$ has a bivariate non-central $t$-distribution with non-centrality parameters $\frac{\theta-c}{\sigma_\nu}$ and $\frac{\theta+c}{\sigma_\nu}$ respectively, we can express the power function in terms of Owen's $Q$-function @Owen65:
 \begin{equation*}
     \begin{aligned}
         p(\alpha, \theta, \sigma_{\nu}, \nu, c) :=& Q_{\nu}\left(-t_{1-\alpha,\nu},\, \frac{\theta - c}{\sigma_{\nu}},\, \frac{c \sqrt{\nu}}{\sigma_{\nu} t_{1-\alpha,\nu}} \right) - Q_{\nu}\left(t_{1-\alpha,\nu},\, \frac{\theta + c}{\sigma_{\nu}},\, \frac{c \sqrt{\nu}}{\sigma_{\nu} t_{1-\alpha,\nu}} \right).
