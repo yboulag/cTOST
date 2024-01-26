@@ -3,7 +3,6 @@ output: github_document
 editor_options:
   markdown:
     wrap: sentence
-bibliography: references.bib
 always_allow_html: yes
 ---
 
@@ -30,7 +29,7 @@ asciicast::init_knitr_engine(
 
 # `cTOST` Overview
 
-This repository holds the `cTOST` R package. This package contains the function `tost` which provides an assessment of equivalence in the univariate framework based on the state-of-the-art Two One-Sided Tests (TOST). In addition, the package contains the functions `atost` and `dtost`, two corrective procedures applied to the TOST in the univariate framework in order to ensure the preservation of the Type I error rate at the desired nominal level and a uniform increase in power. These two functions output an assessment of equivalence in the univariate framework after their respective corrections is applied. More details can be found in @boulaguiem2023finite that you can access via this [link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3).
+This repository holds the `cTOST` R package. This package contains the function `tost` which provides an assessment of equivalence in the univariate framework based on the state-of-the-art Two One-Sided Tests (TOST). In addition, the package contains the functions `atost` and `dtost`, two corrective procedures applied to the TOST in the univariate framework in order to ensure the preservation of the Type I error rate at the desired nominal level and a uniform increase in power. These two functions output an assessment of equivalence in the univariate framework after their respective corrections is applied. More details can be found in Boulaguiem et al. (2023) that you can access via this [link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3).
 
 # Install Instructions
 
