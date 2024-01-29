@@ -2,27 +2,36 @@
 % Please edit documentation in R/equiv.R
 \name{tost}
 \alias{tost}
-\title{Two One-Sided Test (TOST) for Equivalence Testing}
+\title{Two One-Sided Test (TOST) for (Bio)Equivalence Testing}
 \usage{
 tost(theta, sigma, nu, alpha, delta)
 }
 \arguments{
-\item{theta}{A \code{numeric} value corresponding to the difference of means.}
+\item{theta}{A \code{numeric} value corresponding to the difference of means (e.g. between a generic and reference drug).}
 
-\item{sigma}{A \code{numeric} value corresponding to the the standard error.}
+\item{sigma}{A \code{numeric} value corresponding to the standard error.}
 
 \item{nu}{A \code{numeric} value corresponding to the number of degrees of freedom.}
 
 \item{alpha}{A \code{numeric} value specifying the significance level.}
 
-\item{delta}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)}
+\item{delta}{A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)}
 }
 \value{
-A list containing the TOST decision, confidence interval (CI), difference of means, standard error,
-degrees of freedom, significance level, and the method used ("TOST").
+A \code{tost} object with the structure:
+\itemize{
+ \item decision:    A boolean variable indicating whether (bio)equivalence is accepted or not.
+ \item ci:          Confidence interval at the 1 - 2*alpha level.
+ \item theta:       The difference of means used for the test.
+ \item sigma:       The standard error used for the test.
+ \item nu:          The number of degrees of freedom used for the test.
+ \item alpha:       The significance level used for the test.
+ \item delta:       The (bio)equivalence limits used for the test.
+ \item method:      The method used for the test (here the "TOST").
+}
 }
 \description{
-This function performs a Two One-Sided Test (TOST) for equivalence testing.
+This function performs a Two One-Sided Test (TOST) for (bio)equivalence testing.
 }
 \examples{
 data(skin)

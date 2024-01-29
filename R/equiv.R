@@ -9,9 +9,9 @@ ipowen4 <- function(...) {
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
 #' @param theta                 A \code{numeric} value corresponding to the estimated parameter of interest (such as a difference of means).
-#' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
+#' @param sigma_nu              A \code{numeric} value corresponding to the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
-#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param delta                 A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
 #' @keywords internal
 #' @return The function returns a \code{numeric} value that corresponds to a probability.
@@ -30,9 +30,9 @@ power_TOST = function(alpha, theta, sigma_nu, nu, delta, ...){
 #' @title The size
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
-#' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
+#' @param sigma_nu              A \code{numeric} value corresponding to the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
-#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param delta                 A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
 #' @keywords internal
 #' @return The function returns a \code{numeric} value that corresponds to a probability.
@@ -45,9 +45,9 @@ size_TOST = function(alpha, sigma_nu, nu, delta, ...){
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param test                  A \code{numeric} value specifying the significance level to optimise.
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
-#' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
+#' @param sigma_nu              A \code{numeric} value corresponding to the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
-#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param delta                 A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
 #' @keywords internal
 #' @return The function returns a \code{numeric} value for the objective function.
@@ -59,9 +59,9 @@ obj_fun_alpha_star = function(test, alpha, sigma_nu, nu, delta, ...){
 #' @title Get alpha star
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
-#' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
+#' @param sigma_nu              A \code{numeric} value corresponding to the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
-#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param delta                 A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
 #' @keywords internal
 #' @return The function returns a \code{numeric} value that corresponds to the solution of the optimisation.
@@ -79,7 +79,7 @@ get_alpha_star = function(alpha, sigma_nu, nu, delta, ...){
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
 #' @param theta                 A \code{numeric} value corresponding to the estimated parameter of interest (such as a difference of means).
-#' @param sigma_nu              A \code{numeric} value corresponding to the the estimated standard error.
+#' @param sigma_nu              A \code{numeric} value corresponding to the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param ...                   Additional parameters.
 #' @keywords internal
@@ -91,21 +91,29 @@ ci = function(alpha, theta, sigma_nu, nu, ...){
   cbind(lower,upper)
 }
 
-#' @title Two One-Sided Test (TOST) for Equivalence Testing
+#' @title Two One-Sided Test (TOST) for (Bio)Equivalence Testing
 #'
-#' @description This function performs a Two One-Sided Test (TOST) for equivalence testing.
+#' @description This function performs a Two One-Sided Test (TOST) for (bio)equivalence testing.
 #'
-#' @param theta                 A \code{numeric} value corresponding to the difference of means.
-#' @param sigma                 A \code{numeric} value corresponding to the the standard error.
+#' @param theta                 A \code{numeric} value corresponding to the difference of means (e.g. between a generic and reference drug).
+#' @param sigma                 A \code{numeric} value corresponding to the standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param alpha                 A \code{numeric} value specifying the significance level.
-#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param delta                 A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)
 #'
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #'
-#' @return A list containing the TOST decision, confidence interval (CI), difference of means, standard error,
-#' degrees of freedom, significance level, and the method used ("TOST").
-#'
+#' @return A \code{tost} object with the structure:
+#' \itemize{
+#'  \item decision:    A boolean variable indicating whether (bio)equivalence is accepted or not.
+#'  \item ci:          Confidence interval at the 1 - 2*alpha level.
+#'  \item theta:       The difference of means used for the test.
+#'  \item sigma:       The standard error used for the test.
+#'  \item nu:          The number of degrees of freedom used for the test.
+#'  \item alpha:       The significance level used for the test.
+#'  \item delta:       The (bio)equivalence limits used for the test.
+#'  \item method:      The method used for the test (here the "TOST").
+#' }
 #' @examples
 #' data(skin)
 #'
@@ -119,7 +127,7 @@ ci = function(alpha, theta, sigma_nu, nu, ...){
 tost = function(theta, sigma, nu, alpha, delta){
   decision = abs(theta) < (delta - qt(1 - alpha, df = nu) * sigma)
   ci = theta + c(-1, 1) * qt(1 - alpha, df = nu) * sigma
-  out = list(decision = decision, ci = ci, theta = theta,
+  out = list(decision = as.vector(decision), ci = ci, theta = theta,
              sigma = sigma, nu = nu, alpha = alpha,
              delta = delta, method = "TOST")
   class(out) = "tost"
@@ -127,21 +135,29 @@ tost = function(theta, sigma, nu, alpha, delta){
 }
 
 
-#' @title The alpha-TOST Corrective Procedure for Equivalence Testing
+#' @title The alpha-TOST Corrective Procedure for (Bio)Equivalence Testing
 #'
-#' @description This functions is used to compute the alpha-TOST, a corrective procedure of the significance level applied to the Two One-Sided Test (TOST) for equivalence testing in the univariate framework.
+#' @description This functions is used to compute the alpha-TOST, a corrective procedure of the significance level applied to the Two One-Sided Test (TOST) for (bio)equivalence testing in the univariate framework.
 #'
 #' @param theta                 A \code{numeric} value corresponding to the difference of means.
-#' @param sigma                 A \code{numeric} value corresponding to the the standard error.
+#' @param sigma                 A \code{numeric} value corresponding to the standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param alpha                 A \code{numeric} value specifying the significance level.
-#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param delta                 A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)
 #'
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #'
-#' @return A list containing the alpha-TOST decision, the corrected confidence interval (CI), estimated mean, estimated standard error,
-#' degrees of freedom, nominal level, corrected level, equivalence bounds, and the method used ("alpha-TOST").
-#'
+#' @return A \code{tost} object with the structure:
+#' \itemize{
+#'  \item decision:    A boolean variable indicating whether (bio)equivalence is accepted or not.
+#'  \item ci:          Confidence interval at the 1 - 2*alpha level.
+#'  \item theta:       The difference of means used for the test.
+#'  \item sigma:       The standard error used for the test.
+#'  \item nu:          The number of degrees of freedom used for the test.
+#'  \item alpha:       The significance level used for the test.
+#'  \item delta:       The (bio)equivalence limits used for the test.
+#'  \item method:      The method used for the test (here the "alpha-TOST").
+#' }
 #' @examples
 #' data(skin)
 #'
@@ -170,10 +186,10 @@ atost = function(theta, sigma, nu, alpha, delta){
 #'
 #' @description This function applies the  alpha-TOST corrective procedure to obtain the corrected level.
 #'
-#' @param sigma                 A \code{numeric} value corresponding to the the standard error.
+#' @param sigma                 A \code{numeric} value corresponding to the standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param alpha                 A \code{numeric} value specifying the significance level.
-#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param delta                 A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)
 #' @param tol                   A \code{numeric} value corresponding to the tolerance to be applied during the optimization (see `optim`)
 #'
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
@@ -199,21 +215,29 @@ alphahat.fun = function(sigma, nu, alpha, delta, tol=1e-7){
   ifelse(k==K,NA,alpha.k[k])
 }
 
-#' @title The delta-TOST Corrective Procedure for Equivalence Testing
+#' @title The delta-TOST Corrective Procedure for (Bio)Equivalence Testing
 #'
-#' @description This functions is used to compute the delta-TOST, a corrective procedure of the equivalence bounds applied to the Two One-Sided Test (TOST) for equivalence testing in the univariate framework.
+#' @description This functions is used to compute the delta-TOST, a corrective procedure of the (bio)equivalence bounds applied to the Two One-Sided Test (TOST) for (bio)equivalence testing in the univariate framework.
 #'
 #' @param theta                 A \code{numeric} value corresponding to the difference of means.
-#' @param sigma                 A \code{numeric} value corresponding to the the standard error.
+#' @param sigma                 A \code{numeric} value corresponding to the standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param alpha                 A \code{numeric} value specifying the significance level.
-#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param delta                 A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)
 #'
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #'
-#' @return A list containing the delta-TOST decision, the corrected confidence interval (CI), estimated mean, estimated standard error,
-#' degrees of freedom, nominal level, equivalence bounds, corrected equivalence bounds, and the method used ("delta-TOST").
-#'
+#' @return A \code{tost} object with the structure:
+#' \itemize{
+#'  \item decision:    A boolean variable indicating whether (bio)equivalence is accepted or not.
+#'  \item ci:          Confidence interval at the 1 - 2*alpha level.
+#'  \item theta:       The difference of means used for the test.
+#'  \item sigma:       The standard error used for the test.
+#'  \item nu:          The number of degrees of freedom used for the test.
+#'  \item alpha:       The significance level used for the test.
+#'  \item delta:       The (bio)equivalence limits used for the test.
+#'  \item method:      The method used for the test (here the "delta-TOST").
+#' }
 #' @examples
 #' data(skin)
 #'
@@ -238,13 +262,13 @@ dtost = function(theta, sigma, nu, alpha, delta){
   out
 }
 
-#' Get Corrected Equivalence Bounds
+#' Get Corrected (Bio)Equivalence Bounds
 #'
-#' This function applies the  delta-TOST corrective procedure to obtain the corrected equivalence bounds
+#' This function applies the  delta-TOST corrective procedure to obtain the corrected (bio)equivalence bounds
 #'
-#' @param sigma                 A \code{numeric} value corresponding to the the standard error.
+#' @param sigma                 A \code{numeric} value corresponding to the standard error.
 #' @param alpha                 A \code{numeric} value specifying the significance level.
-#' @param delta                 A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)
+#' @param delta                 A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #'
 #' @keywords internal
@@ -321,10 +345,10 @@ deltahat.fun = function(sigma, alpha, delta, nu){
 
 #' Objective Function of the delta-TOST Corrective Procedure
 #'
-#' @param delta_star The equivalence bound parameter to be optimized.
+#' @param delta_star The (bio)equivalence bound parameter to be optimized.
 #' @param sigma The considered standard error.
 #' @param alpha The nominal level for the test.
-#' @param delta The equivalence bound used for the TOST decision.
+#' @param delta The (bio)equivalence bound used for the TOST decision.
 #' @param nu The degrees of freedom parameter.
 #' @keywords internal
 #'
@@ -339,13 +363,14 @@ obj_fun_delta_hat = function(delta_star, sigma, alpha, delta, nu){
   10^8*(omega - alpha)^2
 }
 
-#' Print Results of Equivalence Assessment
+#' Print Results of (Bio)Equivalence Assessment
 #'
-#' @param x      An object of class "TOST", either the ouput of the functions `tost`, `atost` or `dtost`.
+#' @param x      A \code{tost} object, which is the output of one of the following functions `tost`, `atost` or `dtost`.
 #' @param ticks  Number of ticks to print the confidence interval in the console.
 #' @param rn     Number of digits to consider when printing the results.
 #' @param ...    Further arguments to be passed to or from methods.
-#' @importFrom cli cli_text col_green col_red
+#' @return       Prints object.
+#' @importFrom   cli cli_text col_green col_red
 #'
 #' @rdname print.tost
 #'
@@ -512,11 +537,12 @@ print.tost = function(x, ticks = 30, rn = 5, ...){
 
 #' @title Comparison of a Corrective Procedure to the results of the Two One-Sided Tests (TOST)
 #'
-#' @description This function renders a comparison of the alpha-TOST or the delta-TOST outputs obtained with the functions `atost` or `dtost`, respectively, to the ones obtained with the TOST.
+#' @description This function renders a comparison of the alpha-TOST or the delta-TOST outputs obtained with the functions `atost` or `dtost`, respectively, to the TOST output obtained with `tost`.
 #'
-#' @param x an object of class "TOST" that is the output of the functions `atost` or `dtost`.
+#' @param x A \code{tost} object, which is the output of one of the following functions: `atost` or `dtost`.
 #' @param ticks an integer indicating the number of segments that will be printed to represent the confidence intervals.
 #' @param rn integer indicating the number of decimals places to be used (see function `round`) for the printed results.
+#' @return Pints a comparison between the TOST results (i.e., output of `tost`) and either the alpha-TOST or the delta-TOST results (i.e., outputs of `atost` or `dtost`, respectively).
 #'
 #' @importFrom cli cli_text col_green col_red
 #'

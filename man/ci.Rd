@@ -11,7 +11,7 @@ ci(alpha, theta, sigma_nu, nu, ...)
 
 \item{theta}{A \code{numeric} value corresponding to the estimated parameter of interest (such as a difference of means).}
 
-\item{sigma_nu}{A \code{numeric} value corresponding to the the estimated standard error.}
+\item{sigma_nu}{A \code{numeric} value corresponding to the estimated standard error.}
 
 \item{nu}{A \code{numeric} value corresponding to the number of degrees of freedom.}
 

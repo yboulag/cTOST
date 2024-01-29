@@ -1,6 +1,6 @@
 Package: cTOST
 Type: Package
-Title: Finite Sample Correction of the TOST in the Univariate Framework
+Title: Finite Sample Correction of the Two One-Sided Tests in the Univariate Framework
 Version: 1.0.0
 Authors@R: c(
     person("Younes", "Boulaguiem", email = "younes.boulaguiem@gmail.com", role = c("aut","cre","cph")),

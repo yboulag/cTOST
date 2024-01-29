@@ -7,13 +7,13 @@
 obj_fun_delta_hat(delta_star, sigma, alpha, delta, nu)
 }
 \arguments{
-\item{delta_star}{The equivalence bound parameter to be optimized.}
+\item{delta_star}{The (bio)equivalence bound parameter to be optimized.}
 
 \item{sigma}{The considered standard error.}
 
 \item{alpha}{The nominal level for the test.}
 
-\item{delta}{The equivalence bound used for the TOST decision.}
+\item{delta}{The (bio)equivalence bound used for the TOST decision.}
 
 \item{nu}{The degrees of freedom parameter.}
 }

@@ -7,13 +7,13 @@
 alphahat.fun(sigma, nu, alpha, delta, tol = 1e-07)
 }
 \arguments{
-\item{sigma}{A \code{numeric} value corresponding to the the standard error.}
+\item{sigma}{A \code{numeric} value corresponding to the standard error.}
 
 \item{nu}{A \code{numeric} value corresponding to the number of degrees of freedom.}
 
 \item{alpha}{A \code{numeric} value specifying the significance level.}
 
-\item{delta}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)}
+\item{delta}{A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)}
 
 \item{tol}{A \code{numeric} value corresponding to the tolerance to be applied during the optimization (see `optim`)}
 }

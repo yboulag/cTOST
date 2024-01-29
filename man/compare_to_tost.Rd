@@ -7,12 +7,15 @@
 compare_to_tost(x, ticks = 30, rn = 5)
 }
 \arguments{
-\item{x}{an object of class "TOST" that is the output of the functions `atost` or `dtost`.}
+\item{x}{A \code{tost} object, which is the output of one of the following functions: `atost` or `dtost`.}
 
 \item{ticks}{an integer indicating the number of segments that will be printed to represent the confidence intervals.}
 
 \item{rn}{integer indicating the number of decimals places to be used (see function `round`) for the printed results.}
 }
+\value{
+Pints a comparison between the TOST results (i.e., output of `tost`) and either the alpha-TOST or the delta-TOST results (i.e., outputs of `atost` or `dtost`, respectively).
+}
 \description{
-This function renders a comparison of the alpha-TOST or the delta-TOST outputs obtained with the functions `atost` or `dtost`, respectively, to the ones obtained with the TOST.
+This function renders a comparison of the alpha-TOST or the delta-TOST outputs obtained with the functions `atost` or `dtost`, respectively, to the TOST output obtained with `tost`.
 }

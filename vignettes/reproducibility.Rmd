@@ -34,7 +34,6 @@ The results presented in Figure 4 of @boulaguiem2023finite can be reproduced as 
 ```{r, eval=TRUE}
 library(cTOST)
 data(skin)
-par(mar=c(2.5,5,0,0))
 
 # Empty plot
 plot(1,1,pch="",axes=FALSE,xlab="",ylab="",main="",

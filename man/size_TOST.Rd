@@ -9,11 +9,11 @@ size_TOST(alpha, sigma_nu, nu, delta, ...)
 \arguments{
 \item{alpha}{A \code{numeric} value specifying the significance level (default = \code{0.05}).}
 
-\item{sigma_nu}{A \code{numeric} value corresponding to the the estimated standard error.}
+\item{sigma_nu}{A \code{numeric} value corresponding to the estimated standard error.}
 
 \item{nu}{A \code{numeric} value corresponding to the number of degrees of freedom.}
 
-\item{delta}{A \code{numeric} value corresponding to equivalence limit. We assume symmetry, i.e, the equivalence interval corresponds to (-delta,delta)}
+\item{delta}{A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)}
 
 \item{...}{Additional parameters.}
 }
