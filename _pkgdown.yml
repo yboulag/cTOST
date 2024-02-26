@@ -2,6 +2,10 @@ template:
   params:
     bootswatch: flatly
 
+home:
+  sidebar:
+    structure: [links, license, community, citation, authors, dev]
+
 reference:
   - title: TOST functions
     contents:

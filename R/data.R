@@ -16,7 +16,7 @@
 #' }
 #' @references Quartier, Julie, et al. "Cutaneous Biodistribution: A High-Resolution Methodology
 #' to Assess Bioequivalence in Topical Skin Delivery", Pharmaceutics, (2019).
-#' Boulaguiem, Younes, et al. "Finite Sample Adjustments for Average Equivalence Testing", bioRxiv, (2023)
+#' Boulaguiem, Younes, et al. "Finite Sample Adjustments for Average Equivalence Testing", Statistics in Medicine, (2023)
 #'
 #' @examples
 #' data(skin)
