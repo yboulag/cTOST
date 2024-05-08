@@ -62,7 +62,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">dtost</span><span class="op">(</span><span class="va">theta</span>, <span class="va">sigma</span>, <span class="va">nu</span>, <span class="va">alpha</span>, <span class="va">delta</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dtost</span><span class="op">(</span><span class="va">theta</span>, <span class="va">sigma</span>, <span class="va">nu</span>, <span class="va">alpha</span>, <span class="va">delta</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -107,14 +107,14 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">skin</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">theta_hat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">skin</span>,<span class="fl">2</span>,<span class="va">mean</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">nu</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">skin</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span></span>
-<span class="r-in"><span><span class="va">sig_hat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">skin</span>,<span class="fl">1</span>,<span class="va">diff</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">nu</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">res_dtost</span> <span class="op">=</span> <span class="fu">dtost</span><span class="op">(</span>theta <span class="op">=</span> <span class="va">theta_hat</span>, sigma <span class="op">=</span> <span class="va">sig_hat</span>, nu <span class="op">=</span> <span class="va">nu</span>,</span></span>
-<span class="r-in"><span>              alpha <span class="op">=</span> <span class="fl">0.05</span>, delta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">1.25</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">res_dtost</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">skin</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">theta_hat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">skin</span>,<span class="fl">2</span>,<span class="va">mean</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">nu</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">skin</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span></span>
+<span class="r-in"><span class="va">sig_hat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">skin</span>,<span class="fl">1</span>,<span class="va">diff</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">nu</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">res_dtost</span> <span class="op">=</span> <span class="fu">dtost</span><span class="op">(</span>theta <span class="op">=</span> <span class="va">theta_hat</span>, sigma <span class="op">=</span> <span class="va">sig_hat</span>, nu <span class="op">=</span> <span class="va">nu</span>,</span>
+<span class="r-in">              alpha <span class="op">=</span> <span class="fl">0.05</span>, delta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="fl">1.25</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">res_dtost</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖ Can't accept (bio)equivalence</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Corr. Equiv. Region:  |----------------0----------------|</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Estim. Inter.:     <span style="color: #00BB00;">(--------------x--------------</span><span style="color: #BB0000;">-)</span></span>
@@ -124,7 +124,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> alpha = 0.05; Equiv. lim. = +/- 0.22314</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Corrected Equiv. lim. = +/- 0.25473</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Mean = 0.02270; Stand. dev. = 0.13428; df = 16</span>
-<span class="r-in"><span><span class="fu"><a href="compare_to_tost.html">compare_to_tost</a></span><span class="op">(</span><span class="va">res_dtost</span><span class="op">)</span></span></span>
+<span class="r-in"><span class="fu"><a href="compare_to_tost.html">compare_to_tost</a></span><span class="op">(</span><span class="va">res_dtost</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> TOST:       </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖ Can't accept (bio)equivalence</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> delta-TOST: </span>
@@ -137,7 +137,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Standard Equiv. lim. = +/- 0.22314</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Corrected Equiv. lim. = +/- 0.25473</span>
-<span class="r-in"><span></span></span>
+<span class="r-in"></span>
 </code></pre></div>
     </div>
   </div>

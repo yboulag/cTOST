@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Licence](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2024--04--11-green.svg)](https://github.com/yboulag/cTOST)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2024--05--08-green.svg)](https://github.com/yboulag/cTOST)
 [![R-CMD-check](https://github.com/yboulag/cTOST/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yboulag/cTOST/actions/workflows/R-CMD-check.yaml)
 [![CRAN RStudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/cTOST)](https://www.r-pkg.org/pkg/cTOST)
@@ -30,12 +30,19 @@ can be found in Boulaguiem et al. (2023) that you can access via this
 
 ## Install Instructions
 
-The `cTOST` package is available on GitHub at the moment. It is subject
-to ongoing updates that may lead to stability issues.
+The `cTOST` package is available on both CRAN and GitHub. The CRAN
+version is considered stable, whereas the GitHub version is subject to
+modifications/updates which may lead to installation problems or broken
+functions. You can install the stable version of the `cTOST` package
+with:
 
-In order to install the package, it is required to pre-install the
-`devtools` dependency. Run the following command if you do not have it
-already installed:
+``` r
+install.packages("cTOST")
+```
+
+In order to install the latest version from GitHub, it is required to
+pre-install the `devtools` dependency. Run the following command if you
+do not have it already installed:
 
 ``` r
 install.packages("devtools")

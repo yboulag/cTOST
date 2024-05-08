@@ -41,19 +41,19 @@ This repository holds the `cTOST` R package. This package contains the function 
 
 ## Install Instructions
 
-The `cTOST` package is available on GitHub at the moment. It is subject to ongoing updates that may lead to stability issues.  
+The `cTOST` package is available on both CRAN and GitHub. The CRAN version is considered stable, whereas the GitHub version is subject to modifications/updates which may lead to installation problems or broken functions. You can install the stable version of the `cTOST` package with:
+  ```{r, eval=FALSE}
+install.packages("cTOST")
+```
 
-In order to install the package, it is required to pre-install the `devtools` dependency. Run the following command if you do not have it already installed:
-```{r, eval=FALSE}
+In order to install the latest version from GitHub, it is required to pre-install the `devtools` dependency. Run the following command if you do not have it already installed:
+  ```{r, eval=FALSE}
 install.packages("devtools")
 ```
-
-The package is then installed with the following command:
-
-```{r, eval=FALSE}
+The package is then installed with the following command: 
+  ```{r, eval=FALSE}
 devtools::install_github("yboulag/cTOST")
 ```
-
 Note that Windows users are assumed that have Rtools installed (if this is not the case, please visit this [link](https://cran.r-project.org/bin/windows/Rtools/).
 
 ## How to cite
