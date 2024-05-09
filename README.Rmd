@@ -37,7 +37,7 @@ asciicast::init_knitr_engine(
 
 ## Overview
 
-This repository holds the `cTOST` R package. This package contains the function `tost` which provides an assessment of equivalence in the univariate framework based on the state-of-the-art Two One-Sided Tests (TOST). In addition, the package contains the functions `atost` and `dtost`, two corrective procedures applied to the TOST in the univariate framework in order to ensure the preservation of the Type I error rate at the desired nominal level and a uniform increase in power. These two functions output an assessment of equivalence in the univariate framework after their respective corrections is applied. More details can be found in Boulaguiem et al. (2023) that you can access via this [link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3).
+This repository holds the `cTOST` R package. This package contains the function `tost` which provides an assessment of equivalence in the univariate framework based on the state-of-the-art Two One-Sided Tests (TOST). In addition, the package contains the functions `atost` and `dtost`, two corrective procedures applied to the TOST in the univariate framework in order to ensure the preservation of the Type I error rate at the desired nominal level and a uniform increase in power. These two functions output an assessment of equivalence in the univariate framework after their respective corrections is applied. More details can be found in Boulaguiem et al. (2024) that you can access via this [link](https://doi.org/10.1002/sim.9993).
 
 ## Install Instructions
 
@@ -54,7 +54,7 @@ The package is then installed with the following command:
   ```{r, eval=FALSE}
 devtools::install_github("yboulag/cTOST")
 ```
-Note that Windows users are assumed that have Rtools installed (if this is not the case, please visit this [link](https://cran.r-project.org/bin/windows/Rtools/).
+Note that Windows users are assumed to have Rtools installed (if this is not the case, please visit this [link](https://cran.r-project.org/bin/windows/Rtools/)).
 
 ## How to cite
 
@@ -74,7 +74,7 @@ The license this source code is released under is the GNU AFFERO GENERAL PUBLIC 
 
 ## References
 
-Boulaguiem, Y., Quartier, J., Lapteva, M., Kalia, Y. N., Victoria-Feser, M. P., Guerrier, S., & Couturier, D. L., "*Finite Sample Adjustments for Average Equivalence Testing*", Statistics in Medicine, 2023, [https://doi.org/10.1002/sim.9993]( https://doi.org/10.1002/sim.9993).
+Boulaguiem, Y., Quartier, J., Lapteva, M., Kalia, Y. N., Victoria-Feser, M. P., Guerrier, S., & Couturier, D. L., "*Finite Sample Adjustments for Average Equivalence Testing*", Statistics in Medicine, 2024, [https://doi.org/10.1002/sim.9993]( https://doi.org/10.1002/sim.9993).
 
 
 

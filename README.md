@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Licence](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2024--05--08-green.svg)](https://github.com/yboulag/cTOST)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2024--05--09-green.svg)](https://github.com/yboulag/cTOST)
 [![R-CMD-check](https://github.com/yboulag/cTOST/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yboulag/cTOST/actions/workflows/R-CMD-check.yaml)
 [![CRAN RStudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/cTOST)](https://www.r-pkg.org/pkg/cTOST)
@@ -25,8 +25,8 @@ framework in order to ensure the preservation of the Type I error rate
 at the desired nominal level and a uniform increase in power. These two
 functions output an assessment of equivalence in the univariate
 framework after their respective corrections is applied. More details
-can be found in Boulaguiem et al. (2023) that you can access via this
-[link](https://www.biorxiv.org/content/10.1101/2023.03.11.532179v3).
+can be found in Boulaguiem et al. (2024) that you can access via this
+[link](https://doi.org/10.1002/sim.9993).
 
 ## Install Instructions
 
@@ -54,9 +54,9 @@ The package is then installed with the following command:
 devtools::install_github("yboulag/cTOST")
 ```
 
-Note that Windows users are assumed that have Rtools installed (if this
-is not the case, please visit this
-[link](https://cran.r-project.org/bin/windows/Rtools/).
+Note that Windows users are assumed to have Rtools installed (if this is
+not the case, please visit this
+[link](https://cran.r-project.org/bin/windows/Rtools/)).
 
 ## How to cite
 
@@ -80,5 +80,5 @@ a synopsis of the restrictions placed upon the code.
 
 Boulaguiem, Y., Quartier, J., Lapteva, M., Kalia, Y. N., Victoria-Feser,
 M. P., Guerrier, S., & Couturier, D. L., “*Finite Sample Adjustments for
-Average Equivalence Testing*”, Statistics in Medicine, 2023,
+Average Equivalence Testing*”, Statistics in Medicine, 2024,
 <https://doi.org/10.1002/sim.9993>.
