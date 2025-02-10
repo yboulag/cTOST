@@ -5,8 +5,8 @@
 
 <!-- badges: start -->
 
-[![Licence](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
-[![Last-changedate](https://img.shields.io/badge/last%20change-2024--05--09-green.svg)](https://github.com/yboulag/cTOST)
+[![Licence](https://img.shields.io/badge/licence-AGPL--3.0-blue.svg)](https://opensource.org/license/agpl-v3)
+[![Last-changedate](https://img.shields.io/badge/last%20change-2025--02--10-green.svg)](https://github.com/yboulag/cTOST)
 [![R-CMD-check](https://github.com/yboulag/cTOST/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yboulag/cTOST/actions/workflows/R-CMD-check.yaml)
 [![CRAN RStudio mirror
 downloads](http://cranlogs.r-pkg.org/badges/cTOST)](https://www.r-pkg.org/pkg/cTOST)
@@ -64,7 +64,7 @@ not the case, please visit this
       title = {cTOST: Finite Sample Correction of The TOST in The Univariate Framework},
       author = {Younes Boulaguiem and Stéphane Guerrier and Dominique-Laurent Couturier},
       year = {2023},
-      note = {R package version 1.0.0},
+      note = {R package version 1.0.1},
       url = {https://github.com/yboulag/cTOST},
     }
 

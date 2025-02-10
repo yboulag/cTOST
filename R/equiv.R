@@ -2,7 +2,7 @@
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
 #' @param theta                 A \code{numeric} value corresponding to the estimated parameter of interest (such as a difference of means).
-#' @param sigma_nu              A \code{numeric} value corresponding to the estimated standard error.
+#' @param sigma              A \code{numeric} value corresponding to the estimated standard error.
 #' @param nu                    A \code{numeric} value corresponding to the number of degrees of freedom.
 #' @param delta                 A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)
 #' @param ...                   Additional parameters.
