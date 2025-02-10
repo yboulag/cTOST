@@ -4,20 +4,20 @@
 \alias{power_TOST}
 \title{Power function}
 \usage{
-power_TOST(alpha, theta, sigma_nu, nu, delta, ...)
+power_TOST(alpha, theta, sigma, nu, delta, ...)
 }
 \arguments{
 \item{alpha}{A \code{numeric} value specifying the significance level (default = \code{0.05}).}
 
 \item{theta}{A \code{numeric} value corresponding to the estimated parameter of interest (such as a difference of means).}
 
-\item{sigma_nu}{A \code{numeric} value corresponding to the estimated standard error.}
-
 \item{nu}{A \code{numeric} value corresponding to the number of degrees of freedom.}
 
 \item{delta}{A \code{numeric} value corresponding to (bio)equivalence limit. We assume symmetry, i.e, the (bio)equivalence interval corresponds to (-delta,delta)}
 
 \item{...}{Additional parameters.}
+
+\item{sigma_nu}{A \code{numeric} value corresponding to the estimated standard error.}
 }
 \value{
 The function returns a \code{numeric} value that corresponds to a probability.

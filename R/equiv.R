@@ -1,10 +1,3 @@
-#' @title ipowen4 function from the OwenQ package
-#' @author Stéphane Laurent
-#' @keywords internal
-ipowen4 <- function(...) {
-  asNamespace("OwenQ")$ipowen4(...)
-}
-
 #' @title Power function
 #' @author Younes Boulaguiem, Stéphane Guerrier, Dominique-Laurent Couturier
 #' @param alpha                 A \code{numeric} value specifying the significance level (default = \code{0.05}).
@@ -15,11 +8,11 @@ ipowen4 <- function(...) {
 #' @param ...                   Additional parameters.
 #' @keywords internal
 #' @return The function returns a \code{numeric} value that corresponds to a probability.
-power_TOST = function(alpha, theta, sigma_nu, nu, delta, ...){
+power_TOST = function(alpha, theta, sigma, nu, delta, ...){
   tval = qt(1 - alpha, df = nu)
-  mu1 = (theta + delta)/sigma_nu
-  mu2 = (theta - delta)/sigma_nu
-  R = (delta*sqrt(nu))/(tval*sigma_nu)
+  mu1 = (theta + delta)/sigma
+  mu2 = (theta - delta)/sigma
+  R = (delta*sqrt(nu))/(tval*sigma)
   p1 = OwensQ(nu, tval, mu1, 0, R)
   p2 = OwensQ(nu, -tval, mu2, 0, R)
   pw = p2-p1
@@ -199,14 +192,15 @@ alphahat.fun = function(sigma, nu, alpha, delta, tol=1e-7){
   K = 10000
   alpha.k = c(alpha,rep(NA,K-1))
   for(k in 2:K){
-    tval       = qt(1 - alpha.k[k-1], df = nu)
-    delta1     = (2*delta)/sigma
-    delta2     = 0
-    R          = (delta*sqrt(nu))/(tval*sigma)
+    omega = power_TOST(alpha.k[k-1], delta, sigma, nu, delta)
+    # tval       = qt(1 - alpha.k[k-1], df = nu)
+    # delta1     = (2*delta)/sigma
+    # delta2     = 0
+    # R          = (delta*sqrt(nu))/(tval*sigma)
     #ipowen4    =  utils::getFromNamespace("ipowen4", "OwenQ")
     # NOTE: OwenQ:::powen4 unreliable
     #       OwenQ:::ipowen4 gets very close results to PowerTOST but faster
-    omega      = ipowen4(nu, tval, -tval, delta1, delta2)
+    # omega      = ipowen4(nu, tval, -tval, delta1, delta2)
     alpha.k[k] = min(c(alpha + alpha.k[k-1] - omega,0.5))
     # alpha.k[k] = alpha + alpha.k[k-1] - omega
     if(abs(alpha.k[k]-alpha.k[k-1])<tol){break}
@@ -290,11 +284,12 @@ deltahat.fun = function(sigma, alpha, delta, nu){
     omega.m = rep(NA,m)
     for (i in 1:m){
       delta_star = delta.m[i]
-      tval       = qt(1 - alpha, df = nu)
-      delta1     = (delta + delta_star)/sigma
-      delta2     = (delta - delta_star)/sigma
-      R          = (delta_star*sqrt(nu))/(tval*sigma)
-      omega.m[i] = ipowen4(nu, tval, -tval, delta1, delta2)
+      # tval       = qt(1 - alpha, df = nu)
+      # delta1     = (delta + delta_star)/sigma
+      # delta2     = (delta - delta_star)/sigma
+      # R          = (delta_star*sqrt(nu))/(tval*sigma)
+      # omega.m[i] = ipowen4(nu, tval, -tval, delta1, delta2)
+      omega.m[i] = power_TOST(alpha,delta,sigma,nu,delta_star)
       if(omega.m[i]>(alpha+0.01)){
         break
       }
@@ -316,11 +311,12 @@ deltahat.fun = function(sigma, alpha, delta, nu){
       omega.m = rep(NA,m)
       for (i in 1:m){
         delta_star = delta.m[i]
-        tval       = qt(1 - alpha, df = nu)
-        delta1     = (delta + delta_star)/sigma
-        delta2     = (delta - delta_star)/sigma
-        R          = (delta_star*sqrt(nu))/(tval*sigma)
-        omega.m[i] = ipowen4(nu, tval, -tval, delta1, delta2)
+        # tval       = qt(1 - alpha, df = nu)
+        # delta1     = (delta + delta_star)/sigma
+        # delta2     = (delta - delta_star)/sigma
+        # R          = (delta_star*sqrt(nu))/(tval*sigma)
+        # omega.m[i] = ipowen4(nu, tval, -tval, delta1, delta2)
+        omega.m[i] = power_TOST(alpha,delta,sigma,nu,delta_star)
         if(omega.m[i]>(alpha+0.01)){
           break
         }
@@ -355,11 +351,12 @@ deltahat.fun = function(sigma, alpha, delta, nu){
 obj_fun_delta_hat = function(delta_star, sigma, alpha, delta, nu){
   #ipowen4    = utils::getFromNamespace("ipowen4", "OwenQ")
   # delta_star = delta
-  tval       = qt(1 - alpha, df = nu)
-  delta1     = (delta + delta_star)/sigma
-  delta2     = (delta - delta_star)/sigma
-  R          = (delta_star*sqrt(nu))/(tval*sigma)
-  omega      = ipowen4(nu, tval, -tval, delta1, delta2)
+  # tval       = qt(1 - alpha, df = nu)
+  # delta1     = (delta + delta_star)/sigma
+  # delta2     = (delta - delta_star)/sigma
+  # R          = (delta_star*sqrt(nu))/(tval*sigma)
+  # omega      = ipowen4(nu, tval, -tval, delta1, delta2)
+  omega = power_TOST(alpha, delta, sigma, nu, delta_star)
   10^8*(omega - alpha)^2
 }
 

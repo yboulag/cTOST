@@ -1,12 +1,11 @@
 Package: cTOST
 Type: Package
 Title: Finite Sample Correction of the Two One-Sided Tests in the Univariate Framework
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(
     person("Younes", "Boulaguiem", email = "younes.boulaguiem@gmail.com", role = c("aut","cre","cph")),
     person("Stéphane", "Guerrier", email = "stef.guerrier@gmail.com", role = c("aut","cph")),
-    person("Dominique-Laurent", "Couturier", role = c("aut","cph")),
-    person("Stéphane", "Laurent", role = "cph")
+    person("Dominique-Laurent", "Couturier", role = c("aut","cph"))
     )
 Maintainer: Younes Boulaguiem <younes.boulaguiem@gmail.com>
 Description:  A system containing easy-to-use tools to compute the bioequivalence assessment in the univariate framework using the methods proposed in Boulaguiem et al. (2023) <doi:10.1101/2023.03.11.532179>.
@@ -16,7 +15,6 @@ Depends:
     knitr,
     R (>= 4.0)
 Imports:
-    OwenQ,
     rmarkdown
 Suggests:
     asciicast
